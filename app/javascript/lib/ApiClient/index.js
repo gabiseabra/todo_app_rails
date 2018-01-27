@@ -1,6 +1,7 @@
 import _ from "lodash/fp"
 import encoded from "form-urlencoded"
 import autobind from "autobind-decorator"
+import { ResponseError, JsonResponseError } from "./errors"
 import { Devise, Resource } from "./endpoints"
 
 const CSRF_TOKEN_HEADER = "X-CSRF-Token"
@@ -15,6 +16,12 @@ export default class ApiClient {
     // this.users = new Resource(this, "users")
   }
 
+  get headers() {
+    return {
+      [CSRF_TOKEN_HEADER]: this.csrfToken
+    }
+  }
+
   // Apply transformations to request
   request = _.flow(
     function prependUrl([ path, init ]) {
@@ -22,8 +29,8 @@ export default class ApiClient {
     },
     function authenticate([ path, init ]) {
       const headers = new Headers(this.headers)
-      if(request.headers) {
-        for(let [ name, value ] of request.headers.entries()) {
+      if(init.headers) {
+        for(let [ name, value ] of init.headers.entries()) {
           headers.append(name, value)
         }
       }
@@ -36,7 +43,7 @@ export default class ApiClient {
     function encodeBody([ path, init ]) {
       if(init.body) {
         init.headers.append("Content-Type", "application/x-www-form-urlencoded")
-        init.body = _.flow(snakeCaseKeys, encoded)(data)
+        init.body = _.flow(snakeCaseKeys, encoded)(init.body)
       }
       return [ path, init ]
     },
@@ -45,15 +52,26 @@ export default class ApiClient {
 
   @autobind
   async fetch(path, init = {}) {
-    const response = await window.fetch(this.request([ path, init ]))
+    const request = this.request([ path, init ])
+    const response = await window.fetch(request)
     if(!response.ok) {
-      throw new Error(`${response.status} ${response.statusText}`)
+      throw new ResponseError(response, request)
     }
     return response
   }
 
   @autobind
   async json(...args) {
-    return this.fetch(...args).json()
+    try {
+      const response = await this.fetch(...args)
+      return response.json()
+    } catch(error) {
+      if(error instanceof ResponseError) {
+        let data
+        try { data = await error.response.json() } catch(err) { throw error }
+        throw new JsonResponseError(data, error)
+      }
+      throw error
+    }
   }
 }
