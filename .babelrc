@@ -16,7 +16,7 @@
     ["lodash", { "id": ["lodash"] }],
     ["module-resolver", {
       "alias": {
-        "@": "./"
+        "@": "./app/javascript"
       }
     }]
   ],
