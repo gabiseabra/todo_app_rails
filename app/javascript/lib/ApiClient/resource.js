@@ -2,13 +2,13 @@ import _ from "lodash"
 
 const METHODS = {
   async index($) {
-    return this.fetch(`/${$}`)
+    return this.fetch(`/${$}.json`)
   },
   async show($, id) {
-    return this.fetch(`/${$}/${id}`)
+    return this.fetch(`/${$}/${id}.json`)
   },
   async create($, data) {
-    return this.fetch(`/${$}`, {
+    return this.fetch(`/${$}.json`, {
       method: "POST",
       headers: new Headers({
         "Content-Type": "application/json"

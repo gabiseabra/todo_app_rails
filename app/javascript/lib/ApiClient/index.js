@@ -8,9 +8,12 @@ export default class ApiClient {
   }
 
   @autobind
-  async fetch(path, ...props) {
+  async fetch(path, options = {}) {
     const url = `${this.url}${path}`
-    const response = await window.fetch(url, ...props)
+    const response = await window.fetch(url, {
+      credentials: "same-origin",
+      ...options
+    })
     if(!response.ok) {
       throw new Error(`${response.status} ${response.statusText}`)
     }
