@@ -6,7 +6,8 @@
     "start:dev": "concurrently \"yarn run start -p 3000\" \"yarn run dev\"",
     "dev": "./bin/webpack-dev-server",
     "build": "bundle exec rake assets:precompile",
-    "test": "bundle exec rspec"
+    "test": "bundle exec rspec",
+    "lint": "eslint app/javascript"
   },
   "dependencies": {
     "autobind-decorator": "^2.1.0",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@rails/webpacker": "^3.2.1",
+    "babel-eslint": "^8.2.1",
     "babel-plugin-lodash": "^3.3.2",
     "babel-plugin-module-resolver": "^3.0.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
@@ -27,6 +29,11 @@
     "babel-preset-react-optimize": "^1.0.1",
     "babel-preset-stage-2": "^6.24.1",
     "concurrently": "^3.5.1",
+    "eslint": "^4.16.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.6.0",
     "prop-types": "^15.6.0",
     "webpack-dev-server": "^2.11.1"
   }

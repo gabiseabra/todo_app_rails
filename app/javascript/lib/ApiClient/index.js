@@ -30,7 +30,7 @@ export default class ApiClient {
     function authenticate([ path, init ]) {
       const headers = new Headers(this.headers)
       if(init.headers) {
-        for(let [ name, value ] of init.headers.entries()) {
+        for(const [ name, value ] of init.headers.entries()) {
           headers.append(name, value)
         }
       }
