@@ -4,7 +4,7 @@ export default class BaseStore {
   @observable loading = false
   @observable error = undefined
 
-  constructor({ apiClient }, store) {
+  constructor(store, { apiClient }) {
     this.api = apiClient
     this.store = store
   }

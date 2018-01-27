@@ -1,4 +1,4 @@
-import { observable, computed } from "mobx"
+import { observable } from "mobx"
 import BaseStore, { asyncAction } from "./BaseStore"
 
 export default class Users extends BaseStore {
@@ -9,20 +9,32 @@ export default class Users extends BaseStore {
 
   get currentUser() { return this.get(this.currentUserId) }
 
+  constructor(store, options) {
+    super(store, options)
+    this.setCurrentUser(options.currentUser)
+  }
+
   @asyncAction async signUp(options) {
     const { data } = await this.api.auth.signUp(options)
-    this.registry.set(data.id, data)
-    this.currentUserId = data.id
+    this.setCurrentUser(data)
   }
 
   @asyncAction async signIn(options) {
     const { data } = await this.api.auth.signIn(options)
-    this.registry.set(data.id, data)
-    this.currentUserId = data.id
+    this.setCurrentUser(data)
   }
 
   @asyncAction async signOut() {
     await this.api.auth.signOut()
-    this.currentUser = undefined
+    this.setCurrentUser(undefined)
+  }
+
+  setCurrentUser(user) {
+    if(user) {
+      this.currentUserId = user.id
+      this.registry.set(user.id, user)
+    } else {
+      this.currentUserId = undefined
+    }
   }
 }
