@@ -2,6 +2,7 @@ import Endpoint from "./Endpoint"
 
 export default class Resource extends Endpoint {
   constructor(api, name) {
+    super(api)
     this.name = name
   }
 
