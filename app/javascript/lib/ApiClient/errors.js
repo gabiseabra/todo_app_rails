@@ -9,8 +9,9 @@ export class ResponseError extends Error {
 }
 
 export class JsonResponseError extends ResponseError {
-  constructor(data, { request, response }) {
+  constructor({ data, errors }, { request, response }) {
     super(request, response)
     this.data = data
+    this.errors = errors
   }
 }

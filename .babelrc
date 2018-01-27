@@ -10,9 +10,9 @@
   ],
   "plugins": [
     "transform-decorators-legacy",
-    "syntax-dynamic-import",
     "transform-object-rest-spread",
-    ["transform-class-properties", { "spec": true }],
+    "transform-class-properties",
+    "syntax-dynamic-import",
     ["lodash", { "id": ["lodash"] }],
     ["module-resolver", {
       "alias": {
