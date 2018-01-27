@@ -1,37 +1,51 @@
-import url from "url"
+import _ from "lodash/fp"
+import encoded from "form-urlencoded"
 import autobind from "autobind-decorator"
-import resource from "./resource"
+import { Devise, Resource } from "./endpoints"
 
 const CSRF_TOKEN_HEADER = "X-CSRF-Token"
 
+const snakeCaseKeys = _.mapKeys(_.snakeCase)
+
 export default class ApiClient {
   constructor(url, { csrfToken }) {
-    this.url = url
+    this.url = url.replace(/\/$/, "")
     this.csrfToken = csrfToken
-    this.users = resource(this, "users")
+    this.auth = new Devise(this)
+    // this.users = new Resource(this, "users")
   }
 
-  request(input, init = {}) {
-    const headers = new Headers(this.headers)
-    const request = (input instanceof Request ? input : init)
-    let path = (input instanceof Request ? input.path : input)
-    if(request.headers) {
-      for(let [ name, value ] of request.headers.entries()) {
-        headers.append(name, value)
+  // Apply transformations to request
+  request = _.flow(
+    function prependUrl([ path, init ]) {
+      return [ `${this.url}/${path.replace(/^\//, "")}`, init ]
+    },
+    function authenticate([ path, init ]) {
+      const headers = new Headers(this.headers)
+      if(request.headers) {
+        for(let [ name, value ] of request.headers.entries()) {
+          headers.append(name, value)
+        }
       }
-    }
-    headers.set(CSRF_TOKEN_HEADER, this.csrfToken)
-    const targetUrl = url.resolve(this.url, path.replace(/^\//, ""))
-    return new Request(targetUrl, {
-      ...request,
-      credentials: "same-origin",
-      headers
-    })
-  }
+      return [ path, {
+        credentials: "same-origin",
+        headers,
+        ...init
+      } ]
+    },
+    function encodeBody([ path, init ]) {
+      if(init.body) {
+        init.headers.append("Content-Type", "application/x-www-form-urlencoded")
+        init.body = _.flow(snakeCaseKeys, encoded)(data)
+      }
+      return [ path, init ]
+    },
+    ([ path, init ]) => new Request(path, init)
+  )
 
   @autobind
-  async fetch(...args) {
-    const response = await window.fetch(this.request(...args))
+  async fetch(path, init = {}) {
+    const response = await window.fetch(this.request([ path, init ]))
     if(!response.ok) {
       throw new Error(`${response.status} ${response.statusText}`)
     }
