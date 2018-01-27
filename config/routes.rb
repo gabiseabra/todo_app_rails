@@ -3,6 +3,9 @@ Rails.application.routes.draw do
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :todo, path: '/api' do
-    resources :users
+    mount_devise_token_auth_for Todo::User.name, at: 'auth' do
+      # Define routes for Todo::User within this block.
+    end
+    # resources :users
   end
 end

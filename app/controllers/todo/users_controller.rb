@@ -1,18 +1,20 @@
-class Todo::UsersController < TodoController
+class Todo::UsersController < Todo::BaseController
+  include Devise::Controllers::InternalHelpers
+
+  prepend_before_filter :require_no_authentication, only: [:create]
   before_action :set_todo_user, only: [:show, :update, :destroy]
 
-  # GET /todo/users
+  respond_to :json
+
   # GET /todo/users.json
   def index
     @todo_users = Todo::User.all
   end
 
-  # GET /todo/users/1
   # GET /todo/users/1.json
   def show
   end
 
-  # POST /todo/users
   # POST /todo/users.json
   def create
     @todo_user = Todo::User.new(todo_user_params)
@@ -24,7 +26,6 @@ class Todo::UsersController < TodoController
     end
   end
 
-  # PATCH/PUT /todo/users/1
   # PATCH/PUT /todo/users/1.json
   def update
     if @todo_user.update(todo_user_params)
@@ -34,7 +35,6 @@ class Todo::UsersController < TodoController
     end
   end
 
-  # DELETE /todo/users/1
   # DELETE /todo/users/1.json
   def destroy
     @todo_user.destroy
