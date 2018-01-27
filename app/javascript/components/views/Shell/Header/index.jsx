@@ -1,12 +1,11 @@
 import React from "react"
 import { Header, Title } from "grommet"
-import { Nav as UserNav } from "@/components/users"
 
-export default function AppHeader() {
+export default function AppHeader({ userNav }) {
   return (
     <Header fixed>
       <Title>Todo App</Title>
-      <UserNav />
+      {userNav}
     </Header>
   )
 }

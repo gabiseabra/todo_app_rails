@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { Button, Form, FormField, TextInput, PasswordInput } from "grommet"
+import Spinner from "grommet/components/icons/Spinning"
 
 export default class SignUp extends Component {
   state = {
@@ -11,18 +12,27 @@ export default class SignUp extends Component {
 
   onChange = ({ target }) => this.setState({ [target.name]: target.value })
 
-  onSubmit = () => this.props.onSubmit(this.state)
+  onSubmit = (e) => {
+    e.preventDefault()
+    this.props.onSubmit(this.state)
+  }
 
   render() {
-    const { email, username, password, passwordConfirmation } = this.state
+    const { loading } = this.props
+    const {
+      email,
+      username,
+      password,
+      passwordConfirmation
+    } = this.state
 
     return (
       <Form onSubmit={this.onSubmit}>
         <FormField label="Username">
-          <TextInput name="username" value={username} onChange={this.onChange} />
+          <TextInput name="username" value={username} onDOMChange={this.onChange} />
         </FormField>
         <FormField label="Email">
-          <TextInput name="email" value={email} onChange={this.onChange} />
+          <TextInput name="email" value={email} onDOMChange={this.onChange} />
         </FormField>
         <FormField label="Password">
           <PasswordInput name="password" value={password} onChange={this.onChange} />
@@ -30,9 +40,13 @@ export default class SignUp extends Component {
         <FormField label="Repeat Password">
           <PasswordInput name="passwordConfirmation" value={passwordConfirmation} onChange={this.onChange} />
         </FormField>
-        <Button type="submit">
-          Submit
-        </Button>
+        <div style={{ margin: "20px 0", textAlign: "right" }}>
+          {loading && <Spinner />}
+          <Button
+            primary
+            type={loading ? null : "submit"}
+            label="Submit" />
+        </div>
       </Form>
     )
   }

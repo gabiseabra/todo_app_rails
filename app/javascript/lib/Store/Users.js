@@ -7,11 +7,10 @@ export default class Users extends BaseStore {
 
   get(id) { return this.registry.get(id) }
 
-  get currentUser() { return this.get(currentUserId) }
+  get currentUser() { return this.get(this.currentUserId) }
 
   @asyncAction async signUp(options) {
     const { data } = await this.api.auth.signUp(options)
-    console.log(data)
     this.registry.set(data.id, data)
     this.currentUserId = data.id
   }
