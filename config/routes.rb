@@ -7,5 +7,8 @@ Rails.application.routes.draw do
       # Define routes for Todo::User within this block.
     end
     # resources :users
+    resources :task_lists, path: 'todo' do
+      resources :tasks
+    end
   end
 end
