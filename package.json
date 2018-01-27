@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "rails s",
-    "start:dev": "concurrently \"yarn run start\" \"yarn run dev\"",
+    "start:dev": "concurrently \"yarn run start -p 3000\" \"yarn run dev\"",
     "dev": "./bin/webpack-dev-server",
     "build": "bundle exec rake assets:precompile",
     "test": "bundle exec rspec"
