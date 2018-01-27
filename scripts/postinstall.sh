@@ -6,4 +6,4 @@
 
 BUGGY_FILE="$PWD/node_modules/grommet/scss/grommet-core/_objects.animate.scss"
 
-sed 's/^\&\./\./g' $BUGGY_FILE > $BUGGY_FILE
+sed -i 's/^&//' $BUGGY_FILE
