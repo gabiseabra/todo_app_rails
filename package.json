@@ -2,6 +2,10 @@
   "name": "todo_app",
   "private": true,
   "scripts": {
+    "start": "rails s",
+    "start:dev": "concurrently \"yarn run start\" \"yarn run dev\"",
+    "dev": "./bin/webpack-dev-server",
+    "build": "bundle exec rake assets:precompile",
     "test": "bundle exec rspec"
   },
   "dependencies": {
@@ -18,6 +22,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-react-optimize": "^1.0.1",
     "babel-preset-stage-2": "^6.24.1",
+    "concurrently": "^3.5.1",
     "prop-types": "^15.6.0",
     "webpack-dev-server": "^2.11.1"
   }
