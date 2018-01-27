@@ -2,6 +2,7 @@
   "name": "todo_app",
   "private": true,
   "scripts": {
+    "postinstall": "./scripts/postinstall.sh",
     "start": "rails s",
     "start:dev": "concurrently \"yarn run start -p 3000\" \"yarn run dev\"",
     "dev": "./bin/webpack-dev-server",
