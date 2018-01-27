@@ -5,7 +5,9 @@ export default class Users extends BaseStore {
   @observable currentUserId = undefined
   @observable registry = observable.map()
 
-  get(id) { return }
+  get(id) { return this.registry.get(id) }
+
+  get currentUser() { return this.get(currentUserId) }
 
   @asyncAction async signUp(options) {
     const { data } = await this.api.auth.signUp(options)

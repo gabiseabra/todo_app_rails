@@ -1,9 +1,10 @@
 import React from "react"
+import { App } from "grommet"
 
-export default function Shell() {
+export default function Shell({ children }) {
   return (
-    <div>
-      Hello World!
-    </div>
+    <App>
+      {children}
+    </App>
   )
 }

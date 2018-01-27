@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 import { Provider } from "mobx-react"
 import ApiClient from "@/lib/ApiClient"
 import Store from "@/lib/Store"
-import Shell from "@/components/views/Shell"
+import App from "@/containers/views/App"
 
 const csrfToken = document.querySelector("meta[name=csrf-token]").getAttribute('content')
 
@@ -14,7 +14,7 @@ const store = new Store({ apiClient })
 document.addEventListener("DOMContentLoaded", () => {
   ReactDOM.render(
     <Provider store={store}>
-      <Shell />
+      <App />
     </Provider>,
     document.body.appendChild(document.createElement('div')),
   )

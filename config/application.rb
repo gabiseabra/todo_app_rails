@@ -30,6 +30,9 @@ module TodoApp
 
     config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
+    config.assets.paths << Rails.root.join('node_modules')
+    config.assets.paths << Rails.root.join('node_modules', 'grommet', 'node_modules')
+
     # config.api_only = true
   end
 end
