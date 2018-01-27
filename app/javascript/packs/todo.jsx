@@ -6,15 +6,35 @@ import ApiClient from "@/lib/ApiClient"
 import Store from "@/lib/Store"
 import App from "@/containers/views/App"
 
-const apiClient = new ApiClient("/api", env)
+const API_URL = "/api"
 
-const store = new Store({ apiClient, ...env })
-
-document.addEventListener("DOMContentLoaded", () => {
-  ReactDOM.render(
-    <Provider {...store}>
+function render(method = "render") {
+  ReactDOM[method](
+    <Provider {...render.store}>
       <App />
     </Provider>,
-    document.body.appendChild(document.createElement("div")),
+    render.root
   )
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const root = document.body.appendChild(document.createElement("div"))
+  const apiClient = new ApiClient(API_URL, env)
+  const store = new Store({ apiClient, ...env })
+  Object.assign(render, { root, store, apiClient })()
 })
+
+if(module.hot) {
+  module.hot.accept("../containers/views/App", () => {
+    render("hydrate")
+  })
+  module.hot.accept("../lib/ApiClient", () => {
+    render.apiClient = new ApiClient(API_URL, render.apiClient.options)
+    render.store = new Store({ apiClient: render.apiClient, ...env })
+    render("hydrate")
+  })
+  module.hot.accept("../lib/Store", () => {
+    render.store = new Store({ apiClient: render.apiClient, ...env })
+    render("hydrate")
+  })
+}

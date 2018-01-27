@@ -10,23 +10,19 @@ const AUTH_USER_HEADER = "X-User-Email"
 const AUTH_TOKEN_HEADER = "X-User-Token"
 
 export default class ApiClient {
-  constructor(url, { csrfToken, authToken, currentUser }) {
+  constructor(url, options) {
     this.url = url.replace(/\/$/, "")
-    this.csrfToken = csrfToken
-    this.auth = {
-      token: authToken,
-      email: currentUser ? currentUser.email : undefined
-    }
-    this.authToken = authToken
+    this.options = options
     this.auth = new Devise(this)
     // this.users = new Resource(this, "users")
   }
 
   get headers() {
+    const { csrfToken, authToken, currentUser } = this.options
     return {
-      [CSRF_TOKEN_HEADER]: this.csrfToken,
-      [AUTH_USER_HEADER]: this.auth.email,
-      [AUTH_TOKEN_HEADER]: this.auth.token
+      [CSRF_TOKEN_HEADER]: csrfToken,
+      [AUTH_USER_HEADER]: authToken,
+      [AUTH_TOKEN_HEADER]: currentUser ? currentUser.email : undefined
     }
   }
 
