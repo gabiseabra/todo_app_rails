@@ -12,4 +12,7 @@ class Todo::User < ApplicationRecord
          :omniauthable
 
   has_many :task_lists
+
+  # Disable email confirmation
+  def confirmed?; true end
 end
