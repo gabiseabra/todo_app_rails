@@ -1,3 +1,3 @@
 class Todo::BaseController < ActionController::API
-  include DeviseTokenAuth::Concerns::SetUserByToken
+  acts_as_token_authentication_handler_for Todo::User
 end

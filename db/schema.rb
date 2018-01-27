@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180127042534) do
+ActiveRecord::Schema.define(version: 20180127181935) do
 
   create_table "todo_task_lists", force: :cascade do |t|
     t.integer "user_id"
@@ -52,6 +52,8 @@ ActiveRecord::Schema.define(version: 20180127042534) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.text "tokens"
+    t.string "authentication_token"
+    t.index ["authentication_token"], name: "index_todo_users_on_authentication_token", unique: true
     t.index ["confirmation_token"], name: "index_todo_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_todo_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_todo_users_on_reset_password_token", unique: true

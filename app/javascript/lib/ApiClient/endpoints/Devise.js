@@ -1,17 +1,17 @@
 import Endpoint from "./Endpoint"
 
 export default class Devise extends Endpoint {
-  async signUp(body) {
+  async signUp(data) {
     return this.json("/auth.json", {
       method: "POST",
-      body
+      body: { user: data }
     })
   }
 
-  async signIn(body) {
+  async signIn(data) {
     return this.fetch("/auth/sign_in.json", {
       method: "POST",
-      body
+      body: { user: data }
     })
   }
 

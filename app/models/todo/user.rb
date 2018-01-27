@@ -1,5 +1,5 @@
 class Todo::User < ApplicationRecord
-  include DeviseTokenAuth::Concerns::User
+  acts_as_token_authenticatable
 
   # Include default devise modules.
   devise :database_authenticatable,
@@ -7,9 +7,8 @@ class Todo::User < ApplicationRecord
          :recoverable,
          :rememberable,
          :trackable,
-         :validatable,
-         # :confirmable,
-         :omniauthable
+         :validatable
+         # :confirmable
 
   has_many :task_lists
 

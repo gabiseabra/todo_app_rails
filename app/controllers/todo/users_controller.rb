@@ -48,6 +48,6 @@ class Todo::UsersController < Todo::BaseController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def todo_user_params
-      params.require(:todo_user).permit(:username, :email, :password)
+      params.permit(*params_for_resource(:account_update))
     end
 end

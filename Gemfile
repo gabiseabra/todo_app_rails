@@ -63,5 +63,4 @@ gem 'acts_as_list'
 
 # Authentication
 gem 'devise'
-gem 'omniauth'
-gem 'devise_token_auth'
+gem 'simple_token_authentication'
