@@ -1,26 +1,28 @@
 {
   "presets": [
-    [
-      "env",
-      {
-        "modules": false,
-        "targets": {
-          "browsers": "> 1%",
-          "uglify": true
-        },
-        "useBuiltIns": true
-      }
-    ],
+    ["env", {
+      "targets": { "uglify": true },
+      "modules": false,
+      "useBuiltIns": true
+    }],
+    "stage-2",
     "react"
   ],
   "plugins": [
+    "transform-decorators-legacy",
     "syntax-dynamic-import",
     "transform-object-rest-spread",
-    [
-      "transform-class-properties",
-      {
-        "spec": true
+    ["transform-class-properties", { "spec": true }],
+    ["lodash", { "id": ["lodash"] }],
+    ["module-resolver", {
+      "alias": {
+        "@": "./"
       }
-    ]
-  ]
+    }]
+  ],
+  "env": {
+		"production": {
+			"presets": ["react-optimize"]
+		}
+  }
 }
