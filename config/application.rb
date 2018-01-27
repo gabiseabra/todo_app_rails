@@ -28,6 +28,8 @@ module TodoApp
     # Don't generate system test files.
     config.generators.system_tests = nil
 
+    config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
     # config.api_only = true
   end
 end
