@@ -1,11 +1,19 @@
-module Todo::AuthConcern
+module ApiConcern
   extend ActiveSupport::Concern
 
-  def render_success(resource, status: 200)
+  def respond_with(resource, **options)
+    if resource.valid?
+      render_success(resource, **options)
+    else
+      render_error(resource, **options)
+    end
+  end
+
+  def render_success(resource, **options)
     render json: {
       data: resource.to_json,
       authentication_token: resource.authentication_token
-    }, status: status
+    }, **options
   end
 
   def render_error(resource, status: 200)

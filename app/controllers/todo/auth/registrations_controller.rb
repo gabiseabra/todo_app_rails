@@ -1,5 +1,5 @@
 class Todo::Auth::RegistrationsController < Devise::RegistrationsController
-  include Todo::AuthConcern
+  include ApiConcern
 
   def create
     build_resource(sign_up_params)

@@ -33,6 +33,8 @@ module TodoApp
     config.assets.paths << Rails.root.join('node_modules')
     config.assets.paths << Rails.root.join('node_modules', 'grommet', 'node_modules')
 
+    config.eager_load_paths << Rails.root.join('lib')
+
     # config.api_only = true
   end
 end
