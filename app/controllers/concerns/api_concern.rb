@@ -1,7 +1,12 @@
 module ApiConcern
   extend ActiveSupport::Concern
 
-  def respond_with(resource, **options)
+  %i[render redirect].each do |method|
+    define_method(method) { |*args| super(*args) unless performed? }
+  end
+
+  # Discard location
+  def respond_with(resource, location: nil, **options)
     if resource.valid?
       render_success(resource, **options)
     else
@@ -9,17 +14,17 @@ module ApiConcern
     end
   end
 
-  def render_success(resource, **options)
+  def render_success(resource, status: 200, **options)
     render json: {
       data: resource.to_json,
       authentication_token: resource.authentication_token
-    }, **options
+    }, status: status, **options
   end
 
-  def render_error(resource, status: 200)
+  def render_error(resource, status: 422, **options)
     render json: {
       errors: resource.errors,
       authentication_token: resource.try(:authentication_token)
-    }, status: status
+    }, status: status, **options
   end
 end
