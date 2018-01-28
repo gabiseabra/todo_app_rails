@@ -10,7 +10,6 @@ class Todo::Auth::RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
     if resource.persisted?
       # if resource.active_for_authentication?
-        resource.confirm!
         sign_up(resource_name, resource)
         render_success resource, status: 201
       # else
