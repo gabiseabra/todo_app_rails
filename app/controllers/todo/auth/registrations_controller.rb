@@ -1,7 +1,7 @@
 class Todo::Auth::RegistrationsController < Devise::RegistrationsController
   include Todo::AuthConcern
 
-  respond_to :json
+  # skip_before_filter :authenticate_todo_user!, only: %i[create sign_in]
 
   def create
     build_resource(sign_up_params)
@@ -10,6 +10,7 @@ class Todo::Auth::RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
     if resource.persisted?
       # if resource.active_for_authentication?
+        resource.confirm!
         sign_up(resource_name, resource)
         render_success resource, status: 201
       # else

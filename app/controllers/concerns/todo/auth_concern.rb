@@ -1,10 +1,6 @@
 module Todo::AuthConcern
   extend ActiveSupport::Concern
 
-  def resource_name
-    :user
-  end
-
   def render_success(resource, **options)
     render json: {
       data: resource.to_json,
