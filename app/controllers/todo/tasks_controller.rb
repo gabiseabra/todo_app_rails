@@ -1,4 +1,4 @@
-class Todo::TasksController < Todo::BaseController
+class Todo::TasksController < TodoController
   before_action :set_todo_task, only: [:show, :update, :destroy]
 
   # GET /todo/tasks.json
