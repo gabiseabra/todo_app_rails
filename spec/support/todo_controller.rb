@@ -26,7 +26,7 @@ end
 
 RSpec.shared_examples 'todo_auth_error' do |status|
   it 'Returns error data and authentication_token' do
-    json.keys.should eq(%i[errors authentication_token])
+    json.keys.should include(:errors)
   end
 
   it 'Responds with status #{status}' do
