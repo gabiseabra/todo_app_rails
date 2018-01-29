@@ -3,7 +3,7 @@ class Todo::TaskListsController < TodoController
 
   # GET /todo/task_lists.json
   def index
-    @todo_task_lists = Todo::TaskList.all
+    @todo_task_lists = current_todo_user.task_lists
   end
 
   # GET /todo/task_lists/1.json
@@ -15,9 +15,9 @@ class Todo::TaskListsController < TodoController
     @todo_task_list = Todo::TaskList.new(todo_task_list_params)
 
     if @todo_task_list.save
-      render :show, status: :created, location: @todo_task_list
+      render :show, status: :created
     else
-      render json: @todo_task_list.errors, status: :unprocessable_entity
+      render_error @todo_task_list, status: :unprocessable_entity
     end
   end
 
@@ -26,7 +26,7 @@ class Todo::TaskListsController < TodoController
     if @todo_task_list.update(todo_task_list_params)
       render :show, status: :ok, location: @todo_task_list
     else
-      render json: @todo_task_list.errors, status: :unprocessable_entity
+      render_error @todo_task_list, status: :unprocessable_entity
     end
   end
 
@@ -43,6 +43,8 @@ class Todo::TaskListsController < TodoController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def todo_task_list_params
-      params.require(:todo_task_list).permit(:user_id, :title, :tasks)
+      params.require(:todo_task_list).permit(:title).merge(
+        'user_id' => current_todo_user.try(:id)
+      )
     end
 end

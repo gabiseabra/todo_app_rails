@@ -12,10 +12,15 @@ RSpec.describe Todo::Auth::RegistrationsController, type: :controller do
   end
 
   describe 'POST #create' do
-    before { post :create, format: :json, params: { todo_user: user_data } }
+    let(:request!) { post :create, format: :json, params: { todo_user: user_data } }
 
     context 'without validation errors' do
-      it_behaves_like 'todo_auth_success', 201
+      it_behaves_like 'todo_api_success', status: 201
+
+      it 'Returns an authentication_token' do
+        request!
+        json[:data][:authentication_token].should_not be_empty
+      end
     end
 
     context 'with validation errors' do
@@ -26,7 +31,7 @@ RSpec.describe Todo::Auth::RegistrationsController, type: :controller do
         'password_confirmation' => 'test'
       }}
 
-      it_behaves_like 'todo_auth_error', 422
+      it_behaves_like 'todo_api_error', status: 422
     end
   end
 end

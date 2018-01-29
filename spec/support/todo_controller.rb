@@ -1,35 +1,47 @@
 RSpec.shared_context 'todo_controller' do
   let(:json) { JSON.parse response.body, symbolize_names: true }
+  let(:sign_in!) do
+    sign_in user, scope: :todo_user
+    @request.env['X-User-Email'] = user.email
+    @request.env['X-User-Token'] = user.authentication_token
+  end
 
-  before do
+  before(:each) do
     @request.env['devise.mapping'] = Devise.mappings[:todo_user]
+    @request.accept = 'application/json'
   end
 end
 
-RSpec.shared_examples 'todo_auth_success' do |status|
-  it 'Returns user data and authentication_token' do
-    json.keys.should eq(%i[data authentication_token])
+RSpec.shared_examples 'todo_api_success' do |status:, template: nil|
+  it 'Returns resource data' do
+    request!
+    if template
+      response.should render_template(template)
+    else
+      json.keys.should include(:data)
+      json[:data].should_not be_empty
+    end
   end
 
-  it 'Returns an user' do
-    json[:data].should_not be_empty
-  end
-
-  it 'Creates an authentication_token' do
-    json[:authentication_token].should_not be_empty
-  end
-
-  it 'Responds with status #{status}' do
+  it "Responds with status #{status}" do
+    request!
     response.status.should == status
   end
 end
 
-RSpec.shared_examples 'todo_auth_error' do |status|
-  it 'Returns error data and authentication_token' do
-    json.keys.should include(:errors)
+RSpec.shared_examples 'todo_api_error' do |status:, template: nil|
+  it 'Returns error data' do
+    request!
+    if template
+      response.should render_template(template)
+    else
+      json.keys.should include(:errors)
+      json[:errors].should_not be_empty
+    end
   end
 
-  it 'Responds with status #{status}' do
+  it "Responds with status #{status}" do
+    request!
     response.status.should == status
   end
 end

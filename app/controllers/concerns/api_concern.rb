@@ -17,14 +17,13 @@ module ApiConcern
   def render_success(resource, status: 200, **options)
     render json: {
       data: resource.attributes,
-      authentication_token: resource.authentication_token
+      authentication_token: current_todo_user.try(:authentication_token)
     }, status: status, **options
   end
 
   def render_error(resource, status: 422, **options)
     render json: {
-      errors: resource.errors,
-      authentication_token: resource.try(:authentication_token)
+      errors: resource.errors
     }, status: status, **options
   end
 end
