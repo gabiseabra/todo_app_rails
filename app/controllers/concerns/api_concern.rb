@@ -16,7 +16,7 @@ module ApiConcern
 
   def render_success(resource, status: 200, **options)
     render json: {
-      data: resource.to_json,
+      data: resource.attributes,
       authentication_token: resource.authentication_token
     }, status: status, **options
   end
