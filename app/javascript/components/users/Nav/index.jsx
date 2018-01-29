@@ -1,5 +1,6 @@
 import React, { Component } from "react"
-import { Button, Layer } from "grommet"
+import { Button, Layer, Menu, Anchor } from "grommet"
+import LoginIcon from "grommet/components/icons/base/Login"
 import UserIcon from "grommet/components/icons/base/User"
 import Auth from "../Auth"
 
@@ -14,17 +15,19 @@ export default class UserNav extends Component {
     }
   }
 
-  onToggle = active => this.setState(state => ({
-    active: typeof active === "boolean" ? !state.active : active
+  onToggle = () => this.setState(state => ({
+    active: !state.active
   }))
 
   renderGreeting() {
-    const { user } = this.props
+    const { user, onSignOut } = this.props
 
     return (
-      <div>
-        Welcome {user.username}
-      </div>
+      <Menu responsive label={`Hello ${user.username}`} icon={<UserIcon />}>
+        <Anchor onClick={onSignOut}>
+          Logout
+        </Anchor>
+      </Menu>
     )
   }
 
@@ -33,9 +36,13 @@ export default class UserNav extends Component {
 
     return (
       <div>
-        <Button label="Login" icon={<UserIcon />} onClick={this.onToggle} />
+        <Button label="Login" icon={<LoginIcon />} onClick={this.onToggle} />
         {active &&
-        <Layer closer overlayClose align="center" onClose={this.onToggle}>
+        <Layer
+          closer
+          overlayClose
+          align="center"
+          onClose={this.onToggle}>
           <Auth {...this.props} />
         </Layer>}
       </div>

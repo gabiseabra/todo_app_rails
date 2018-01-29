@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const root = document.body.appendChild(document.createElement("div"))
   const apiClient = new ApiClient(API_URL, env)
   const store = new Store({ apiClient, ...env })
+  window.api = apiClient
+  window.store = store
   Object.assign(render, { root, store, apiClient })()
 })
 

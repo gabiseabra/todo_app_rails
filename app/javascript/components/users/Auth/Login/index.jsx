@@ -8,12 +8,13 @@ export default class Login extends Component {
   }
 
   render() {
-    const { loading } = this.props
+    const { loading, errors } = this.props
 
     return (
       <LoginForm
         rememberMe
         usernameType="email"
+        errors={errors ? errors.todo_user : undefined}
         onSubmit={this.onSubmit} />
     )
   }
