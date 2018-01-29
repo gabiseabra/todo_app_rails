@@ -5,12 +5,7 @@ RSpec.describe Todo::TaskListsController, type: :controller do
 
   let!(:user) { create(:todo_user) }
   let!(:task_lists) { create_list(:todo_task_list, 10, user: user) }
-  let(:task_list_params) {{}}
-
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # Todo::TaskListsController. Be sure to keep this updated too.
-  # let(:valid_session) { {} }
+  let(:task_list_params) {{ }}
 
   describe 'GET #index' do
     let(:request!) { get :index, format: :json }
@@ -24,10 +19,13 @@ RSpec.describe Todo::TaskListsController, type: :controller do
   end
 
   describe 'GET #show' do
+    let(:subject) { task_lists.last }
+    let(:request!) { get :show, params: { id: subject.to_param } }
+
     it 'assigns the requested todo_task_list as @todo_task_list' do
-      task_list = Todo::TaskList.create! valid_attributes
-      get :show, params: {id: task_list.to_param}
-      assigns(:todo_task_list).should eq(task_list)
+      request!
+      puts response.status
+      assigns(:todo_task_list).should eq(subject)
     end
   end
 
@@ -70,7 +68,7 @@ RSpec.describe Todo::TaskListsController, type: :controller do
 
   describe 'PUT #update' do
     let(:subject) { user.task_lists.last }
-    let(:request!) { put :update, format: :json, params: { id: subject.id, todo_task_list: task_list_params }}
+    let(:request!) { put :update, format: :json, params: { id: subject.to_param, todo_task_list: task_list_params }}
 
     authentication_context do
       context 'with valid params' do
@@ -108,19 +106,17 @@ RSpec.describe Todo::TaskListsController, type: :controller do
     end
   end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested todo_task_list" do
-      task_list = Todo::TaskList.create! valid_attributes
-      expect {
-        delete :destroy, params: {id: task_list.to_param}
-      }.to change(Todo::TaskList, :count).by(-1)
-    end
+  describe 'DELETE #destroy' do
+    let(:subject) { user.task_lists.last }
+    let(:request!) { delete :destroy, format: :json, params: { id: subject.to_param }}
 
-    it "redirects to the todo_task_lists list" do
-      task_list = Todo::TaskList.create! valid_attributes
-      delete :destroy, params: {id: task_list.to_param}
-      response.should redirect_to(todo_task_lists_url)
+    authentication_context do
+      it 'destroys the requested todo_task_list' do
+        lambda do
+          request!
+          user.reload
+        end.should change(user.task_lists, :count).by(-1)
+      end
     end
   end
-
 end
