@@ -24,7 +24,6 @@ RSpec.describe Todo::TaskListsController, type: :controller do
 
     it 'assigns the requested todo_task_list as @todo_task_list' do
       request!
-      puts response.status
       assigns(:todo_task_list).should eq(subject)
     end
   end

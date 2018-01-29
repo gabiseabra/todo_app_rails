@@ -37,7 +37,7 @@ class Todo::TaskListsController < TodoController
 
   private
     def task_lists_scope
-      current_todo_user.task_lists
+      current_todo_user.try(:task_lists) || Todo::TaskList
     end
 
     # Use callbacks to share common setup or constraints between actions.
