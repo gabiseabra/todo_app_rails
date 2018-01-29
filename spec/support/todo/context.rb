@@ -5,15 +5,20 @@ RSpec.shared_context 'todo_controller' do
     @request.env['X-User-Email'] = user.email
     @request.env['X-User-Token'] = user.authentication_token
   end
+  let(:sign_out!) do
+    sign_out :todo_user
+  end
 
   before(:each) do
     @request.env['devise.mapping'] = Devise.mappings[:todo_user]
     @request.accept = 'application/json'
+    @request.env['X-User-Email'] = nil
+    @request.env['X-User-Token'] = nil
   end
 end
 
 RSpec.shared_examples 'todo_api_success' do |status:, template: nil|
-  it 'Returns resource data' do
+  it 'returns resource data' do
     request!
     if template
       response.should render_template(template)
@@ -23,14 +28,14 @@ RSpec.shared_examples 'todo_api_success' do |status:, template: nil|
     end
   end
 
-  it "Responds with status #{status}" do
+  it "responds with status #{status}" do
     request!
     response.status.should == status
   end
 end
 
 RSpec.shared_examples 'todo_api_error' do |status:, template: nil|
-  it 'Returns error data' do
+  it 'returns error data' do
     request!
     if template
       response.should render_template(template)
@@ -40,7 +45,7 @@ RSpec.shared_examples 'todo_api_error' do |status:, template: nil|
     end
   end
 
-  it "Responds with status #{status}" do
+  it "responds with status #{status}" do
     request!
     response.status.should == status
   end

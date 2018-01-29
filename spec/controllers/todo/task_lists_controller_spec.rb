@@ -4,14 +4,13 @@ RSpec.describe Todo::TaskListsController, type: :controller do
   include_context 'todo_controller'
 
   let!(:user) { create(:todo_user) }
-  let(:task_list) { skip "Set task list data" }
+  let(:task_list) {{}}
   let(:valid_task_list) {{
     'title' => 'test'
   }}
   let(:invalid_task_list) {{
     'title' => ''
   }}
-  before(:each) { sign_in! }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -37,29 +36,31 @@ RSpec.describe Todo::TaskListsController, type: :controller do
   describe 'POST #create' do
     let(:request!) { post :create, format: :json, params: { todo_task_list: task_list } }
 
-    context 'with valid params' do
-      let(:task_list) { valid_task_list }
+    authentication_context do
+      context 'with valid params' do
+        let(:task_list) { valid_task_list }
 
-      it_behaves_like 'todo_api_success', status: 201, template: :show
+        it_behaves_like 'todo_api_success', status: 201, template: :show
 
-      it 'creates a new Todo::TaskList' do
-        lambda { request! }.should change(Todo::TaskList, :count).by(1)
+        it 'creates a new Todo::TaskList' do
+          lambda { request! }.should change(Todo::TaskList, :count).by(1)
+        end
+
+        it 'assigns a newly created todo_task_list as @todo_task_list' do
+          request!
+          assigns(:todo_task_list).should be_a(Todo::TaskList)
+          assigns(:todo_task_list).should be_persisted
+        end
       end
 
-      it 'assigns a newly created todo_task_list as @todo_task_list' do
-        request!
-        assigns(:todo_task_list).should be_a(Todo::TaskList)
-        assigns(:todo_task_list).should be_persisted
-      end
-    end
+      context 'with invalid params' do
+        let(:task_list) { invalid_task_list }
 
-    context 'with invalid params' do
-      let(:task_list) { invalid_task_list }
+        it_behaves_like 'todo_api_error', status: 422
 
-      it_behaves_like 'todo_api_error', status: 422
-
-      it 'assigns a newly created but unsaved todo_task_list as @todo_task_list' do
-        assigns(:todo_task_list).should be_a_new(Todo::TaskList)
+        it 'assigns a newly created but unsaved todo_task_list as @todo_task_list' do
+          assigns(:todo_task_list).should be_a_new(Todo::TaskList)
+        end
       end
     end
   end
