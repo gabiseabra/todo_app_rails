@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     }
 
     scope :user do
-      resources :task_lists, path: 'todo', only: %i[index new create destroy] do
+      resources :task_lists, path: 'todo', only: %i[index create update destroy] do
         resources :tasks
       end
     end
