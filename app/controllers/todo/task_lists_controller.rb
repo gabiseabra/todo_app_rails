@@ -3,7 +3,7 @@ class Todo::TaskListsController < TodoController
 
   # GET /todo/task_lists.json
   def index
-    @todo_task_lists = current_todo_user.task_lists
+    @todo_task_lists = task_lists_scope
   end
 
   # GET /todo/task_lists/1.json
@@ -36,9 +36,13 @@ class Todo::TaskListsController < TodoController
   end
 
   private
+    def task_lists_scope
+      current_todo_user.task_lists
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_todo_task_list
-      @todo_task_list = Todo::TaskList.find(params[:id])
+      @todo_task_list = task_lists_scope.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
