@@ -9,14 +9,14 @@ export default class Devise extends Endpoint {
   }
 
   async signIn(data) {
-    return this.fetch("/auth/sign_in.json", {
+    return this.json("/auth/sign_in.json", {
       method: "POST",
       body: { todo_user: data }
     })
   }
 
   async signOut() {
-    return this.fetch("/sign_out", {
+    return this.fetch("/auth/sign_out", {
       method: "DELETE"
     })
   }

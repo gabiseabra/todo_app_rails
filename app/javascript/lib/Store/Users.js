@@ -1,4 +1,4 @@
-import { observable } from "mobx"
+import { observable, action } from "mobx"
 import BaseStore, { asyncAction } from "./BaseStore"
 
 export default class Users extends BaseStore {
@@ -29,6 +29,7 @@ export default class Users extends BaseStore {
     this.setCurrentUser(undefined)
   }
 
+  @action
   setCurrentUser(user) {
     if(user) {
       this.currentUserId = user.id
