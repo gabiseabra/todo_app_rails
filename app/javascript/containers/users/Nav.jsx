@@ -8,6 +8,7 @@ function NavApp({ users }) {
       user={users.currentUser}
       loading={users.loading}
       errors={users.error && users.error.errors}
+      onDismissError={users.dismissError}
       onSignOut={users.signOut}
       onSignIn={users.signIn}
       onSignUp={users.signUp} />

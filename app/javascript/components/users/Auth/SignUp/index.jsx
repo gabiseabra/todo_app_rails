@@ -1,15 +1,32 @@
-import _ from "lodash"
+import autobind from "autobind-decorator"
 import React, { Component } from "react"
-import { Tip, Button, Form, FormField, TextInput, PasswordInput } from "grommet"
+import { Button, Form, TextInput, PasswordInput } from "grommet"
 import Spinner from "grommet/components/icons/Spinning"
+import FormField from "./Field"
 
 export default class SignUp extends Component {
   static defaultProps = {
     fields: {
-      email: "todo_field_email",
-      username: "todo_field_username",
-      password: "todo_field_password",
-      password_confirmation: "todo_field_password_confirmation"
+      email: {
+        label: "Email",
+        id: "todo_field_email",
+        Input: TextInput
+      },
+      username: {
+        label: "Username",
+        id: "todo_field_username",
+        Input: TextInput
+      },
+      password: {
+        label: "Password",
+        id: "todo_field_password",
+        Input: PasswordInput
+      },
+      password_confirmation: {
+        label: "Password Confirmation",
+        id: "todo_field_password_confirmation",
+        Input: PasswordInput
+      }
     }
   }
 
@@ -17,7 +34,7 @@ export default class SignUp extends Component {
     email: "",
     username: "",
     password: "",
-    passwordConfirmation: ""
+    password_confirmation: ""
   }
 
   onChange = ({ target }) => this.setState({ [target.name]: target.value })
@@ -27,67 +44,32 @@ export default class SignUp extends Component {
     this.props.onSubmit(this.state)
   }
 
-  renderErrors() {
-    const { errors, fields } = this.props
-    if(_.isEmpty(errors)) return null
-    return Object.entries(fields).map(([ name, id ]) => {
-      console.log(name, errors[name])
-      if(errors[name]) {
-        return (
-          <Tip key={name} target={id} align="left" onClose={() => null}>
-            {errors[name]}
-          </Tip>
-        )
-      }
-      return null
-    })
+  @autobind
+  renderField(name) {
+    const { Input, ...props } = this.props.fields[name]
+    let { errors } = this.props
+    if(errors) errors = errors[name]
+    return (
+      <FormField key={name} errors={errors} {...props}>
+        <Input
+          name={name}
+          value={this.state[name]}
+          onDOMChange={this.onChange} />
+      </FormField>
+    )
   }
 
   render() {
     const { loading, fields } = this.props
-    const {
-      email,
-      username,
-      password,
-      passwordConfirmation
-    } = this.state
 
     return (
       <Form onSubmit={this.onSubmit}>
-        <FormField label="Username">
-          <TextInput
-            id={fields.username}
-            name="username"
-            value={username}
-            onDOMChange={this.onChange} />
-        </FormField>
-        <FormField label="Email">
-          <TextInput
-            id={fields.email}
-            name="email"
-            value={email}
-            onDOMChange={this.onChange} />
-        </FormField>
-        <FormField label="Password">
-          <PasswordInput
-            id={fields.password}
-            name="password"
-            value={password}
-            onChange={this.onChange} />
-        </FormField>
-        <FormField label="Repeat Password">
-          <PasswordInput
-            id={fields.password_confirmation}
-            name="passwordConfirmation"
-            value={passwordConfirmation}
-            onChange={this.onChange} />
-        </FormField>
-        {this.renderErrors()}
+        {Object.keys(fields).map(this.renderField)}
         <div style={{ margin: "20px 0", textAlign: "right" }}>
-          {loading && <Spinner />}
           <Button
             primary
             type={loading ? null : "submit"}
+            icon={loading ? <Spinner /> : null}
             label="Submit" />
         </div>
       </Form>
