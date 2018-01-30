@@ -15,23 +15,26 @@ export default class ApiClient {
     email: null
   }
 
+  auth = new Devise(this)
+
+  taskLists = new Resource(this, {
+    name: "todo_task_list",
+    path: "lists",
+    parent: [ "users" ],
+    shallow: true
+  })
+
+  tasks = new Resource(this, {
+    name: "todo_task",
+    path: "tasks",
+    parent: [ "lists" ],
+    shallow: true
+  })
+
   constructor(url, options) {
     this.url = url.replace(/\/$/, "")
     this.options = options
     if(options.currentUser) this.authenticate(options.currentUser)
-    this.auth = new Devise(this)
-    this.taskLists = new Resource(this, {
-      name: "todo_task_list",
-      path: "lists",
-      parent: [ "users" ],
-      shallow: true
-    })
-    this.tasks = new Resource(this, {
-      name: "todo_task",
-      path: "tasks",
-      parent: [ "lists" ],
-      shallow: true
-    })
   }
 
   get headers() {
