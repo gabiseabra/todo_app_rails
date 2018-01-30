@@ -28,6 +28,7 @@ export default class ResourceStore extends BaseStore {
 
   @asyncAction async create(...args) {
     const { data } = await this.endpoint.create(...args)
+    this.currentIds.push(data.id)
     this.registry.set(data.id, data)
   }
 
