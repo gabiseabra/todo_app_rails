@@ -14,7 +14,14 @@ export default class ApiClient {
     this.url = url.replace(/\/$/, "")
     this.options = options
     this.auth = new Devise(this)
-    // this.users = new Resource(this, "users")
+    this.taskLists = new Resource(this, {
+      name: "task_list",
+      path: "lists"
+    })
+    this.tasks = new Resource(this, {
+      name: "task",
+      parent: [ "lists" ]
+    })
   }
 
   get headers() {
