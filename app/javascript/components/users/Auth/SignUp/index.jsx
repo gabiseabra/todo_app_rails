@@ -1,8 +1,7 @@
 import autobind from "autobind-decorator"
 import React, { Component } from "react"
-import { Button, Form, TextInput, PasswordInput } from "grommet"
+import { Button, Form, FormField, TextInput, PasswordInput } from "grommet"
 import Spinner from "grommet/components/icons/Spinning"
-import FormField from "./Field"
 
 const NormalizedTextInput = ({ onChange, ...props }) => (
   <TextInput onDOMChange={onChange} {...props} />
@@ -54,7 +53,7 @@ export default class SignUp extends Component {
     let { errors } = this.props
     if(errors) errors = errors[name]
     return (
-      <FormField key={name} errors={errors} {...props}>
+      <FormField key={name} error={errors} {...props}>
         <Input
           name={name}
           value={this.state[name]}
