@@ -33,4 +33,8 @@ class Todo::User < ApplicationRecord
     # gravatar = "https://www.gravatar.com/avatar/#{hash}&"
     # gravatar << { d: adorable_avatar }.to_param
   end
+
+  def as_json(*args)
+    super(*args).merge(avatar_url: avatar_url)
+  end
 end
