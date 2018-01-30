@@ -4,18 +4,22 @@ import { Button, Form, TextInput, PasswordInput } from "grommet"
 import Spinner from "grommet/components/icons/Spinning"
 import FormField from "./Field"
 
+const NormalizedTextInput = ({ onChange, ...props }) => (
+  <TextInput onDOMChange={onChange} {...props} />
+)
+
 export default class SignUp extends Component {
   static defaultProps = {
     fields: {
       email: {
         label: "Email",
         id: "todo_field_email",
-        Input: TextInput
+        Input: NormalizedTextInput
       },
       username: {
         label: "Username",
         id: "todo_field_username",
-        Input: TextInput
+        Input: NormalizedTextInput
       },
       password: {
         label: "Password",
@@ -54,7 +58,7 @@ export default class SignUp extends Component {
         <Input
           name={name}
           value={this.state[name]}
-          onDOMChange={this.onChange} />
+          onChange={this.onChange} />
       </FormField>
     )
   }
