@@ -1,12 +1,12 @@
 import React from "react"
-import { Title } from "grommet"
+import { Heading } from "grommet"
 import Avatar from "../Avatar"
 
 export default function Card({ username, avatar_url: avatar }) {
   return (
     <div className="Users-Card">
-      <Title>{username}</Title>
-      <Avatar src={avatar} size="large" />
+      <Heading>{username}</Heading>
+      <Avatar src={avatar} size="medium" />
     </div>
   )
 }

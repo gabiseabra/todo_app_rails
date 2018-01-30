@@ -1,11 +1,11 @@
 import React from "react"
-import { Section, Title } from "grommet"
+import { Article, Heading } from "grommet"
 
 export default function Page({ title, children }) {
   return (
-    <Section>
-      {title && <Title>{title}</Title>}
+    <Article>
+      {title && <Heading>{title}</Heading>}
       {children}
-    </Section>
+    </Article>
   )
 }

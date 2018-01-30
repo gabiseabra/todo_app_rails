@@ -2,7 +2,7 @@ $Avatar--sizes: (small: 40px, medium: 100px, large: 250px);
 
 .Todo {
   .App--main {
-    margin: 20px 30px;
+    margin: 40px 30px;
   }
   .App-Header {
     display: flex;
@@ -10,7 +10,7 @@ $Avatar--sizes: (small: 40px, medium: 100px, large: 250px);
     padding: 0 30px;
   }
 
-  .Avatar {
+  .Users-Avatar {
     border-radius: 50%;
     overflow: hidden;
     @each $name, $size in $Avatar--sizes {
@@ -19,5 +19,14 @@ $Avatar--sizes: (small: 40px, medium: 100px, large: 250px);
         height: $size;
       }
     }
+  }
+
+  .Users-Card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
   }
 }
