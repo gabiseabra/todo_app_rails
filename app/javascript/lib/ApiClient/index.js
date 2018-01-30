@@ -10,9 +10,15 @@ const AUTH_USER_HEADER = "X-User-Email"
 const AUTH_TOKEN_HEADER = "X-User-Token"
 
 export default class ApiClient {
+  auth = {
+    token: null,
+    email: null
+  }
+
   constructor(url, options) {
     this.url = url.replace(/\/$/, "")
     this.options = options
+    if(options.currentUser) this.authenticate(options.currentUser)
     this.auth = new Devise(this)
     this.taskLists = new Resource(this, {
       name: "todo_task_list",
@@ -29,12 +35,16 @@ export default class ApiClient {
   }
 
   get headers() {
-    const { csrfToken, authToken, currentUser } = this.options
+    const { csrfToken } = this.options
     return {
       [CSRF_TOKEN_HEADER]: csrfToken,
-      [AUTH_USER_HEADER]: authToken,
-      [AUTH_TOKEN_HEADER]: currentUser ? currentUser.email : undefined
+      [AUTH_USER_HEADER]: this.auth.email,
+      [AUTH_TOKEN_HEADER]: this.auth.token
     }
+  }
+
+  authenticate({ email, authentication_token: token }) {
+    this.auth = { email, token }
   }
 
   request = parseRequest.bind(this)
