@@ -28,12 +28,11 @@ export function asyncAction(target, name, descriptor) {
     let result
     try {
       result = await fun.call(this, ...props)
-      this.valid = true
     } catch(error) {
       this.error = error
-      this.valid = false
     }
     this.loading = false
+    this.valid = true
     return result
   }
   return action.bound(target, name, descriptor)

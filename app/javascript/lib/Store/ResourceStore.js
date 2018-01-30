@@ -10,7 +10,10 @@ export default class ResourceStore extends BaseStore {
 
   getScopeIds(scope) { return this.scopes.get(scope) }
 
-  getScope(scope = "") { return this.getScopeIds(scope).map(id => this.get(id)) }
+  getScope(scope = "") {
+    if(!this.scopes.has(scope)) return undefined
+    return this.getScopeIds(scope).map(id => this.get(id))
+  }
 
   get endpoint() { throw new Error("ResourceStore.endpoint() not implemented") }
 
