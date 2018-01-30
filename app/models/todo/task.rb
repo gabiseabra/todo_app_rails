@@ -3,5 +3,5 @@ class Todo::Task < ApplicationRecord
 
   belongs_to :task_list
 
-  validates :position, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :checked, inclusion: { in: [true, false] }, allow_nil: false
 end

@@ -46,7 +46,7 @@ RSpec.describe Todo::TasksController, type: :controller do
           lambda { request! }.should change(task_list.tasks, :count).by(1)
         end
 
-        it 'assigns a newly created todo_task_list as @todo_task_list' do
+        it 'assigns a newly created todo_task as @todo_task' do
           request!
           assigns(:todo_task).should be_a(Todo::Task)
           assigns(:todo_task).should be_persisted
@@ -55,15 +55,14 @@ RSpec.describe Todo::TasksController, type: :controller do
 
       context 'with invalid params' do
         let(:task_params) {{
-          'body'     => 'test',
-          'position' => -1,
-          'checked'  => true
+          'body'     => 'test'
         }}
 
         it_behaves_like 'todo_api_error', status: 422
 
-        it 'assigns a newly created but unsaved todo_task_list as @todo_task_list' do
+        it 'assigns a newly created but unsaved todo_task as @todo_task' do
           request!
+          puts request.body
           assigns(:todo_task).should be_a_new(Todo::Task)
         end
       end
@@ -76,8 +75,8 @@ RSpec.describe Todo::TasksController, type: :controller do
 
     authentication_context do
       context 'with valid params' do
-        let(:task_list_params) {{
-          'title' => 'foo'
+        let(:task_params) {{
+          'body' => 'foo'
         }}
 
         it_behaves_like 'todo_api_success', status: 200, template: :show
@@ -86,25 +85,25 @@ RSpec.describe Todo::TasksController, type: :controller do
           lambda do
             request!
             subject.reload
-          end.should change{ subject.title }.to('foo')
+          end.should change{ subject.body }.to('foo')
         end
 
-        it 'assigns the requested todo_task_list as @todo_task_list' do
+        it 'assigns the requested todo_task as @todo_task' do
           request!
-          assigns(:todo_task_list).should eq(subject)
+          assigns(:todo_task).should eq(subject)
         end
       end
 
       context 'with invalid params' do
-        let(:task_list_params) {{
-          'title' => ''
+        let(:task_params) {{
+          'checked' => nil
         }}
 
         it_behaves_like 'todo_api_error', status: 422
 
-        it 'assigns the todo_task_list as @todo_task_list' do
+        it 'assigns the todo_task as @todo_task' do
           request!
-          assigns(:todo_task_list).should eq(subject)
+          assigns(:todo_task).should eq(subject)
         end
       end
     end
@@ -112,14 +111,14 @@ RSpec.describe Todo::TasksController, type: :controller do
 
   describe 'DELETE #destroy' do
     let(:subject) { user.task_lists.last }
-    let(:request!) { delete :destroy, format: :json, params: { id: subject.to_param }}
+    let(:request!) { delete :destroy, format: :json, params: { id: subject.to_param, **params }}
 
     authentication_context do
       it 'destroys the requested todo_task_list' do
         lambda do
           request!
-          user.reload
-        end.should change(user.task_lists, :count).by(-1)
+          subject.reload
+        end.should change(subject.tasks, :count).by(-1)
       end
     end
   end

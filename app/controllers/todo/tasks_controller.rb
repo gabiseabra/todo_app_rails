@@ -33,16 +33,21 @@ class Todo::TasksController < TodoController
 
   # DELETE /todo/tasks/1.json
   def destroy
+    puts @todo_task
     @todo_task.destroy
   end
 
   private
     def task_lists_scope
-      current_todo_user.try(:task_lists)
+      @scope ||= current_todo_user.try(:task_lists)
+      @scope ||= Todo::TaskList if action_name.to_sym == :show
+      head 401 unless @scope
+      @scope
     end
 
     def set_todo_task_list
       @todo_task_list = task_lists_scope.find(params[:task_list_id])
+      head 404 unless @todo_task_list
     end
 
     # Use callbacks to share common setup or constraints between actions.
