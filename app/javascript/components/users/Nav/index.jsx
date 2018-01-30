@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { Link } from "react-router-dom"
 import { Button, Layer, Menu, Anchor } from "grommet"
 import LoginIcon from "grommet/components/icons/base/Login"
 import UserIcon from "grommet/components/icons/base/User"
@@ -24,6 +25,11 @@ export default class UserNav extends Component {
 
     return (
       <Menu responsive label={`Hello ${user.username}`} icon={<UserIcon />}>
+        <Link to="/dashboard">
+          <Anchor tag="span">
+            Dashboard
+          </Anchor>
+        </Link>
         <Anchor onClick={onSignOut}>
           Logout
         </Anchor>
