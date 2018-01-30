@@ -26,7 +26,7 @@ export default class UserNav extends Component {
 
     return (
       <Menu responsive label={`Hello ${user.username}`} icon={<Avatar src={user.avatar_url} size="small" />}>
-        <Link to="/dashboard">
+        <Link to="/me">
           <Anchor tag="span">
             Dashboard
           </Anchor>
