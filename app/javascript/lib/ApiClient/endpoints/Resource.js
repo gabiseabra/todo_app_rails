@@ -1,8 +1,9 @@
 import Endpoint from "./Endpoint"
 
 export default class Resource extends Endpoint {
-  constructor(api, { name, path, parent }) {
+  constructor(api, { name, path, parent, shallow }) {
     super(api)
+    this.shallow = shallow
     this.parent = parent || []
     this.path = path || `${name}s` // poor man's inflection
     this.name = name
@@ -24,7 +25,12 @@ export default class Resource extends Endpoint {
 
   resolveResource(...args) {
     const [ id ] = args.splice(this.parent.length, 1)
-    return `${this.resolve(...args)}/${id}.json`
+    const path = (
+      this.shallow ?
+        `/${this.path}` :
+        this.resolve(...args)
+    )
+    return `${path}/${id}.json`
   }
 
   async index(...args) {
