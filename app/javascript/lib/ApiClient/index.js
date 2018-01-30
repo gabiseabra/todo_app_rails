@@ -15,11 +15,12 @@ export default class ApiClient {
     this.options = options
     this.auth = new Devise(this)
     this.taskLists = new Resource(this, {
-      name: "task_list",
+      name: "todo_task_list",
       path: "lists"
     })
     this.tasks = new Resource(this, {
-      name: "task",
+      name: "todo_task",
+      path: "tasks",
       parent: [ "lists" ]
     })
   }
