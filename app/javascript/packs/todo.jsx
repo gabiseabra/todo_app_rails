@@ -1,5 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
+import { HashRouter } from "react-router-dom"
 import { Provider } from "mobx-react"
 import * as env from "@/env"
 import ApiClient from "@/lib/ApiClient"
@@ -11,7 +12,9 @@ const API_URL = "/api"
 function render(method = "render") {
   ReactDOM[method](
     <Provider {...render.store}>
-      <App />
+      <HashRouter>
+        <App />
+      </HashRouter>
     </Provider>,
     render.root
   )
