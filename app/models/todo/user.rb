@@ -1,3 +1,5 @@
+require 'digest'
+
 class Todo::User < ApplicationRecord
   acts_as_token_authenticatable
 
@@ -18,4 +20,17 @@ class Todo::User < ApplicationRecord
 
   # Disable email confirmation
   def confirmed?; true end
+
+  def to_param
+    username
+  end
+
+  def avatar_url
+    # Temporary avatar url
+    # @TODO Use paperclip
+    adorable_avatar = "https://api.adorable.io/avatars/285/#{username}.png"
+    # hash = Digest::HD5.hexdigest email.to_lower
+    # gravatar = "https://www.gravatar.com/avatar/#{hash}&"
+    # gravatar << { d: adorable_avatar }.to_param
+  end
 end

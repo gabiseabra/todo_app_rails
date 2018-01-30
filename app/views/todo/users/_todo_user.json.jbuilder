@@ -1,1 +1,1 @@
-json.extract! todo_user, :id, :username, :email
+json.extract! todo_user, :id, :username, :avatar
