@@ -2,11 +2,16 @@ import { observable, action } from "mobx"
 
 export default class BaseStore {
   @observable loading = false
+  @observable valid = false
   @observable error = undefined
 
   constructor(store, { apiClient }) {
     this.api = apiClient
     this.store = store
+  }
+
+  @action invalidate() {
+    this.valid = false
   }
 
   @action dismissError(key) {
@@ -23,8 +28,10 @@ export function asyncAction(target, name, descriptor) {
     let result
     try {
       result = await fun.call(this, ...props)
+      this.valid = true
     } catch(error) {
       this.error = error
+      this.valid = false
     }
     this.loading = false
     return result
