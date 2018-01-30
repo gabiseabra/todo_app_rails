@@ -1,5 +1,5 @@
 import React from "react"
-import { Switch, Route } from "react-router-dom"
+import { Switch, Route, Redirect } from "react-router-dom"
 import { Shell } from "@/components/views"
 import { Nav as UserNav } from "../../users"
 import HomePage from "./HomePage"
@@ -13,7 +13,8 @@ export default function App(props) {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/u/:id" component={UserPage} />
-        <Route exact path="/me" component={DashboardPage} />
+        <Redirect exact path="/my" to="/me" />
+        <Route path="/:_(m[ey])" component={DashboardPage} />
         <Route component={NotFound} />
       </Switch>
     </Shell>

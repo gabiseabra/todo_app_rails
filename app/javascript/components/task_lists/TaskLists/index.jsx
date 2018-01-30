@@ -1,9 +1,12 @@
 import React from "react"
+import { withRouter } from "react-router-dom"
 import { List, ListItem } from "grommet"
 
-export default function TaskLists({ children }) {
+function TaskLists({ children, history }) {
   return (
-    <List>
+    <List
+      selectable
+      onSelect={i => history.push(`/my/lists/${children[i].id}`)}>
       {children.map(({ id, title }) => (
         <ListItem key={id}>
           {title}
@@ -12,3 +15,5 @@ export default function TaskLists({ children }) {
     </List>
   )
 }
+
+export default withRouter(TaskLists)
