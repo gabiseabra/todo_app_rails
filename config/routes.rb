@@ -9,14 +9,8 @@ Rails.application.routes.draw do
       # confirmations: 'todo/auth/confirmations'
     }
 
-    scope :user do
-      resources :task_lists, path: 'todo', only: %i[index create update destroy] do
-        resources :tasks
-      end
-    end
-
-    resources :task_lists, path: 'todo', only: %i[show] do
-      resources :tasks, only: %i[index show]
+    resources :task_lists, path: 'lists' do
+      resources :tasks
     end
   end
 end

@@ -24,7 +24,7 @@ class Todo::TaskListsController < TodoController
   # PATCH/PUT /todo/task_lists/1.json
   def update
     if @todo_task_list.update(todo_task_list_params)
-      render :show, status: :ok, location: @todo_task_list
+      render :show, status: :ok
     else
       render_error @todo_task_list, status: :unprocessable_entity
     end
