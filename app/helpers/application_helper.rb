@@ -1,9 +1,12 @@
 module ApplicationHelper
   def authentication_tags
-    tag.script(@current_todo_user.try(:authentication_token).to_json.html_safe,
+    user = @current_todo_user
+    json = user.to_json(methods: %i[avatar_url])
+    token = user.try(:authentication_token).to_json
+    tag.script(token.html_safe,
                id: 'authentication-token',
-               type: 'application/json').html_safe <<
-    tag.script(@current_todo_user.to_json.html_safe,
+               type: 'application/json') <<
+    tag.script(json.html_safe,
                id: 'authenticated-user',
                type: 'application/json')
   end

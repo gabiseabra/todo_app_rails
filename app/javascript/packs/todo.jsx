@@ -13,7 +13,7 @@ function render(method = "render") {
   ReactDOM[method](
     <Provider {...render.store}>
       <HashRouter>
-        <App className="Todo" />
+        <App />
       </HashRouter>
     </Provider>,
     render.root

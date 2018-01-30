@@ -2,8 +2,9 @@ import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import { Button, Layer, Menu, Anchor } from "grommet"
 import LoginIcon from "grommet/components/icons/base/Login"
-import UserIcon from "grommet/components/icons/base/User"
+// import UserIcon from "grommet/components/icons/base/User"
 import Auth from "../Auth"
+import Avatar from "../Avatar"
 
 export default class UserNav extends Component {
   state = {
@@ -24,7 +25,7 @@ export default class UserNav extends Component {
     const { user, onSignOut } = this.props
 
     return (
-      <Menu responsive label={`Hello ${user.username}`} icon={<UserIcon />}>
+      <Menu responsive label={`Hello ${user.username}`} icon={<Avatar src={user.avatar_url} size="small" />}>
         <Link to="/dashboard">
           <Anchor tag="span">
             Dashboard
