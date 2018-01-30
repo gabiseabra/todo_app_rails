@@ -3,7 +3,7 @@ import { Header, Title } from "grommet"
 
 export default function AppHeader({ userNav }) {
   return (
-    <Header fixed>
+    <Header fixed className="App-Header">
       <Title>Todo App</Title>
       {userNav}
     </Header>
