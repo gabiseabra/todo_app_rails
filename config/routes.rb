@@ -9,8 +9,10 @@ Rails.application.routes.draw do
       # confirmations: 'todo/auth/confirmations'
     }
 
-    resources :task_lists, path: 'lists' do
-      resources :tasks
+    resources :users, only: %i[show] do
+      resources :task_lists, path: 'lists', shallow: true do
+        resources :tasks
+      end
     end
   end
 end

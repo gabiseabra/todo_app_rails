@@ -35,6 +35,6 @@ module TodoApp
 
     config.eager_load_paths << Rails.root.join('lib')
 
-    # config.api_only = true
+    config.api_only = true
   end
 end

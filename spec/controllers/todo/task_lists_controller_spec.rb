@@ -5,22 +5,24 @@ RSpec.describe Todo::TaskListsController, type: :controller do
 
   let!(:user) { create(:todo_user) }
   let!(:task_lists) { create_list(:todo_task_list, 10, user: user) }
-  let(:task_list_params) {{ }}
+  let(:task_list_params) {{ 'id' => nil }}
 
   describe 'GET #index' do
-    let(:request!) { get :index, format: :json }
+    let(:request!) { get :index, format: :json, params: { user_id: user.id } }
 
-    authentication_context do
-      it 'assigns current users\'s task_lists as @todo_task_lists' do
-        request!
-        assigns(:todo_task_lists).should eq(task_lists)
-      end
+    it_behaves_like 'todo_api_success', status: 200, template: :index
+
+    it 'assigns requested users\'s task_lists as @todo_task_lists' do
+      request!
+      assigns(:todo_task_lists).should eq(task_lists)
     end
   end
 
   describe 'GET #show' do
     let(:subject) { task_lists.last }
     let(:request!) { get :show, params: { id: subject.to_param } }
+
+    it_behaves_like 'todo_api_success', status: 200, template: :show
 
     it 'assigns the requested todo_task_list as @todo_task_list' do
       request!
@@ -29,7 +31,7 @@ RSpec.describe Todo::TaskListsController, type: :controller do
   end
 
   describe 'POST #create' do
-    let(:request!) { post :create, format: :json, params: { todo_task_list: task_list_params } }
+    let(:request!) { post :create, format: :json, params: { user_id: user.id, todo_task_list: task_list_params } }
 
     authentication_context do
       context 'with valid params' do

@@ -1,18 +1,21 @@
 class Todo::TaskListsController < TodoController
-  before_action :set_todo_task_list, only: [:show, :update, :destroy]
+  before_action :set_todo_task_list, only: %i[show update destroy]
+  before_action :set_todo_user
+  before_action :authenticate_todo_user, only: %i[create update destroy]
 
-  # GET /todo/task_lists.json
+  # GET /api/users/1/lists.json
   def index
-    @todo_task_lists = task_lists_scope
+    @todo_task_lists = @todo_user.task_lists
   end
 
-  # GET /todo/task_lists/1.json
+  # GET /api/lists/1.json
   def show
   end
 
-  # POST /todo/task_lists.json
+  # POST /api/users/1/lists.json
   def create
     @todo_task_list = Todo::TaskList.new(todo_task_list_params)
+    @todo_user.task_lists << @todo_task_list
 
     if @todo_task_list.save
       render :show, status: :created
@@ -21,7 +24,7 @@ class Todo::TaskListsController < TodoController
     end
   end
 
-  # PATCH/PUT /todo/task_lists/1.json
+  # PATCH/PUT /api/lists/1.json
   def update
     if @todo_task_list.update(todo_task_list_params)
       render :show, status: :ok
@@ -30,25 +33,24 @@ class Todo::TaskListsController < TodoController
     end
   end
 
-  # DELETE /todo/task_lists/1.json
+  # DELETE /api/lists/1.json
   def destroy
     @todo_task_list.destroy
   end
 
   private
-    def task_lists_scope
-      current_todo_user.try(:task_lists) || Todo::TaskList
-    end
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_todo_task_list
-      @todo_task_list = task_lists_scope.find(params[:id])
-    end
+  def set_todo_user
+    @todo_user = Todo::User.find(params[:user_id]) if params[:user_id]
+    @todo_user ||= @todo_task_list.user
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def todo_task_list_params
-      params.require(:todo_task_list).permit(:title).merge(
-        'user_id' => current_todo_user.try(:id)
-      )
-    end
+  def set_todo_task_list
+    @todo_task_list = Todo::TaskList.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def todo_task_list_params
+    params.require(:todo_task_list).permit(:title)
+  end
 end

@@ -12,11 +12,11 @@ RSpec.describe Todo::TasksController, type: :controller do
   describe 'GET #index' do
     let(:request!) { get :index, format: :json, params: params }
 
-    authentication_context do
-      it 'assigns current users\'s task_lists as @todo_task_lists' do
-        request!
-        assigns(:todo_tasks).should =~ tasks
-      end
+    it_behaves_like 'todo_api_success', status: 200, template: :index
+
+    it 'assigns requested task_lists\'s tasks as @todo_task' do
+      request!
+      assigns(:todo_tasks).should =~ tasks
     end
   end
 
@@ -24,7 +24,9 @@ RSpec.describe Todo::TasksController, type: :controller do
     let(:subject) { tasks.last }
     let(:request!) { get :show, params: { id: subject.to_param, **params } }
 
-    it 'assigns the requested todo_task_list as @todo_task_list' do
+    it_behaves_like 'todo_api_success', status: 200, template: :show
+
+    it 'assigns the requested todo_task as @todo_task' do
       request!
       assigns(:todo_task).should eq(subject)
     end
@@ -62,7 +64,6 @@ RSpec.describe Todo::TasksController, type: :controller do
 
         it 'assigns a newly created but unsaved todo_task as @todo_task' do
           request!
-          puts request.body
           assigns(:todo_task).should be_a_new(Todo::Task)
         end
       end
