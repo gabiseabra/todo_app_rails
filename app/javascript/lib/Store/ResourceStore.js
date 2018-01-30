@@ -1,24 +1,24 @@
-import { observable, computed } from "mobx"
+import _ from "lodash"
+import { observable } from "mobx"
 import BaseStore, { asyncAction } from "./BaseStore"
 
 export default class ResourceStore extends BaseStore {
-  currentIds = observable.array([])
+  scopes = observable.map()
   registry = observable.map()
 
   get(id) { return this.registry.get(id) }
 
-  @computed
-  get current() { return this.currentIds.map(id => this.get(id)) }
+  getScopeIds(scope) { return this.scopes.get(scope) }
+
+  getScope(scope = "") { return this.getScopeIds(scope).map(id => this.get(id)) }
 
   get endpoint() { throw new Error("ResourceStore.endpoint() not implemented") }
 
-  @asyncAction async fetchCurrent(...args) {
-    const { data } = await this.endpoint.index(...args)
-    this.currentIds = []
-    data.forEach((resource) => {
-      this.currentIds.push(resource.id)
-      this.registry.set(resource.id, resource)
-    })
+  @asyncAction async fetchScope(...args) {
+    const { data, scope } = await this.endpoint.index(...args)
+    const resources = _.keyBy(data, "id")
+    this.registry.merge(resources)
+    this.scopes.set(scope, Object.keys(resources))
   }
 
   @asyncAction async fetch(...args) {
@@ -27,9 +27,9 @@ export default class ResourceStore extends BaseStore {
   }
 
   @asyncAction async create(...args) {
-    const { data } = await this.endpoint.create(...args)
-    this.currentIds.push(data.id)
+    const { data, scope } = await this.endpoint.create(...args)
     this.registry.set(data.id, data)
+    this.scopes.get(scope).push(data.id)
   }
 
   @asyncAction async update(...args) {
@@ -38,9 +38,7 @@ export default class ResourceStore extends BaseStore {
   }
 
   @asyncAction async delete(...args) {
-    const [ id ] = args.slice(-1, 1)
-    await this.endpoint.delete(...args)
-    this.currentTaskListIds.remove(id)
+    const { id } = await this.endpoint.delete(...args)
     this.registry.delete(id)
   }
 }

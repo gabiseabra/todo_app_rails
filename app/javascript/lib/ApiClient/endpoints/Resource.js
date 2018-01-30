@@ -1,3 +1,4 @@
+import _ from "lodash"
 import Endpoint from "./Endpoint"
 
 export default class Resource extends Endpoint {
@@ -9,55 +10,67 @@ export default class Resource extends Endpoint {
     this.name = name
   }
 
-  resolve(...args) {
-    let path = ""
-    if(this.parent.length) {
-      this.parent.forEach((scope) => {
-        path += `/${scope}/${args.shift()}`
-      })
+  scope(...args) {
+    const len = this.parent.length
+    if(args.length < len) {
+      throw new Error(`Invalid scope for ${this.name}. Expected ${len} >= arguments, got ${args.length}.`)
     }
-    return `${path}/${this.path}`
+    return _.reduce(this.parent, ($, name, i) => `${$}/${name}/${args[i]}`, "")
   }
 
   resolveScope(...args) {
-    return `${this.resolve(...args)}.json`
+    const scope = this.scope(...args)
+    const path = `${scope}/${this.path}.json`
+    return { scope, path }
   }
 
   resolveResource(...args) {
     const [ id ] = args.splice(this.parent.length, 1)
-    const path = (
+    const scope = this.scope(...args)
+    let path = (
       this.shallow ?
         `/${this.path}` :
-        this.resolve(...args)
+        `${scope}/${this.path}`
     )
-    return `${path}/${id}.json`
+    path += `/${id}.json`
+    return { id, scope, path }
   }
 
   async index(...args) {
-    return this.fetch(this.resolveScope(...args))
+    const { path, ...data } = this.resolveScope(...args)
+    const response = await this.json(path)
+    return { ...response, ...data }
   }
 
   async show(...args) {
-    return this.fetch(this.resolveResource(...args))
+    const { path, ...data } = this.resolveResource(...args)
+    const response = await this.json(path)
+    return { ...response, ...data }
   }
 
   async create(...args) {
     const [ body ] = args.splice(-1, 1)
-    return this.fetch(this.resolveScope(...args), {
+    const { path, ...data } = this.resolveScope(...args)
+    const response = await this.json(path, {
       method: "POST",
       body: { [this.name]: body }
     })
+    return { ...response, ...data }
   }
 
   async update(...args) {
     const [ body ] = args.splice(-1, 1)
-    return this.fetch(this.resolveResource(...args), {
+    const { path, ...data } = this.resolveResource(...args)
+    const response = await this.json(path, {
       method: "PUT",
       body: { [this.name]: body }
     })
+    return { ...response, ...data }
   }
 
   async delete(...args) {
-    return this.fetch(this.resolveResource(...args), { method: "DELETE" })
+    const { path, ...result } = this.resolveResource(...args)
+    await this.fetch(path, { method: "DELETE" })
+    return result
   }
 }
