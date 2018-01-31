@@ -14,7 +14,7 @@ export default function App(props) {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/u/:id" component={UserPage} />
-        <Route exact path="/u/:user/lists/:id" component={TaskListPage} />
+        <Route exact path="/lists/:id" component={TaskListPage} />
         <Redirect exact path="/my" to="/me" />
         <Route path="/:_(m[ey])" component={DashboardPage} />
         <Route component={NotFound} />
