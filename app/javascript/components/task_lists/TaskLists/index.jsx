@@ -8,26 +8,33 @@ import { confirmDialog } from "../../shared"
 
 class TaskLists extends Component {
   onSelect = (i) => {
-    const { history, children } = this.props
-    console.log(1, children[i])
+    const { history, editable } = this.props
+    const node = this.props.children[i]
+    const url = (
+      editable ?
+        `/my/lists/${node.id}` :
+        `/u/${node.user_ud}/lists/${node.id}`
+    )
+    history.push(url)
   }
 
   onRemove = i => (e) => {
+    const { onDelete } = this.props
+    const node = this.props.children[i]
     e.preventDefault()
     e.stopPropagation()
-    const node = this.props.children[i]
     return confirmDialog({
       critical: true,
       buttonLabel: "Delete",
       title: `Delete #${node.id} ${node.title}`,
       children: `Really delete ${node.title}?`,
-      onConfirm: () => console.log("!", this.props.children[i])
+      onConfirm: () => onDelete(node.id)
     })
   }
 
   @autobind
   renderControls(node, i) {
-    const { editable, onDelete } = this.props
+    const { editable } = this.props
     if(!editable) return null
     return (
       <Fragment>

@@ -25,13 +25,16 @@ export default class Resource extends Endpoint {
   }
 
   resolveResource(...args) {
-    const [ id ] = args.splice(this.parent.length, 1)
+    let id
+    let path
     const scope = this.scope(...args)
-    let path = (
-      this.shallow ?
-        `/${this.path}` :
-        `${scope}/${this.path}`
-    )
+    if(this.shallow) {
+      id = args.shift()
+      path = `${this.path}`
+    } else {
+      id = args.splice(this.parent.length, 1).pop()
+      path = `${scope}/${this.path}`
+    }
     path += `/${id}.json`
     return { id, scope, path }
   }
