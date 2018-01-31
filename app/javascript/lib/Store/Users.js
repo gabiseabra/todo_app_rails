@@ -25,8 +25,7 @@ export default class Users extends BaseStore {
   }
 
   @asyncAction async signOut() {
-    await this.api.auth.signOut()
-    this.setCurrentUser(undefined)
+    return this.api.auth.signOut().then(() => this.setCurrentUser(null))
   }
 
   @action

@@ -6,7 +6,7 @@ export default class Devise extends Endpoint {
       method: "POST",
       body: { todo_user: data }
     }).then((response) => {
-      this.authenticate(response.data)
+      this.api.authenticate(response.data)
       return response
     })
   }
@@ -16,17 +16,16 @@ export default class Devise extends Endpoint {
       method: "POST",
       body: { todo_user: data }
     }).then((response) => {
-      this.authenticate(response.data)
+      this.api.authenticate(response.data)
       return response
     })
   }
 
   async signOut() {
-    return this.fetch("/auth/sign_out", {
+    const response = await this.fetch("/auth/sign_out", {
       method: "DELETE"
-    }).then((response) => {
-      this.authenticate({})
-      return response
     })
+    this.api.authenticate({})
+    return response
   }
 }

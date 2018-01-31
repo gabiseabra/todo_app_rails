@@ -42,10 +42,10 @@ export default class SignUp extends Component {
   }
 
   render() {
-    const { loading, children } = this.props
+    const { loading, children, ...props } = this.props
 
     return (
-      <Form onSubmit={this.onSubmit}>
+      <Form {...props} onSubmit={this.onSubmit}>
         {Object.keys(children).map(this.renderField)}
         <div style={{ margin: "20px 0", textAlign: "right" }}>
           <Button

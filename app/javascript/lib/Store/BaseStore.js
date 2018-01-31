@@ -30,6 +30,7 @@ export function asyncAction(target, name, descriptor) {
       result = await fun.call(this, ...props)
     } catch(error) {
       this.error = error
+      console.error(error)
     }
     this.loading = false
     this.valid = true

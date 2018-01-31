@@ -23,8 +23,8 @@ const FIELDS = {
   }
 }
 
-export default function SignUp(props) {
+export default function SignUp({ onSubmit }) {
   return (
-    <Form {...props}>{FIELDS}</Form>
+    <Form pad="medium" onSubmit={onSubmit}>{FIELDS}</Form>
   )
 }

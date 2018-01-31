@@ -13,7 +13,9 @@ function UserPage({ users }) {
       <Card user={users.currentUser.id} />
       <TaskLists user={users.currentUser.id} />
       <LayerRoute exact path="/lists/:id">
-        heyy lmao
+        <div>
+          heyy lmao
+        </div>
       </LayerRoute>
     </Page>
   )

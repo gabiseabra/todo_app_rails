@@ -2,6 +2,14 @@
  *= require grommet/scss/vanilla/index
  */
 
-.grommet.grommetux-drop {
-  z-index: 100;
+.grommet {
+  .grommetux-drop {
+    z-index: 100;
+  }
+  .grommetux-layer__container {
+    width: auto;
+    min-height: 48px;
+    min-width: 200px !important;
+    max-width: 600px !important;
+  }
 }

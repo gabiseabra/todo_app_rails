@@ -2,7 +2,7 @@ import _ from "lodash"
 import autobind from "autobind-decorator"
 import React, { Component } from "react"
 import { Route, withRouter } from "react-router-dom"
-import { Layer } from "grommet"
+import { Layer } from "@/components/shared"
 
 class LayerRoute extends Component {
   onClose = () => {

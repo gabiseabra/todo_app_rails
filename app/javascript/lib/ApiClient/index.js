@@ -10,7 +10,9 @@ const AUTH_USER_HEADER = "X-User-Email"
 const AUTH_TOKEN_HEADER = "X-User-Token"
 
 export default class ApiClient {
-  auth = {
+  options = {}
+
+  authentication = {
     token: null,
     email: null
   }
@@ -38,16 +40,15 @@ export default class ApiClient {
   }
 
   get headers() {
-    const { csrfToken } = this.options
     return {
-      [CSRF_TOKEN_HEADER]: csrfToken,
-      [AUTH_USER_HEADER]: this.auth.email,
-      [AUTH_TOKEN_HEADER]: this.auth.token
+      [CSRF_TOKEN_HEADER]: this.options.csrfToken,
+      [AUTH_USER_HEADER]: this.authentication.email,
+      [AUTH_TOKEN_HEADER]: this.authentication.token
     }
   }
 
   authenticate({ email, authentication_token: token }) {
-    this.auth = { email, token }
+    this.authentication = { email, token }
   }
 
   request = parseRequest.bind(this)
