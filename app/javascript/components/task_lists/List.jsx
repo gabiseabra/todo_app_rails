@@ -1,11 +1,11 @@
 import autobind from "autobind-decorator"
 import React, { Component, Fragment } from "react"
 import { withRouter } from "react-router-dom"
-import AddIcon from "grommet/components/icons/base/Add"
+// import AddIcon from "grommet/components/icons/base/Add"
 import RemoveIcon from "grommet/components/icons/base/Trash"
 import ViewIcon from "grommet/components/icons/base/View"
 import { List, ListItem, Button } from "grommet"
-import { confirmDialog } from "../../shared"
+import { confirmDialog } from "../shared"
 
 const stopPropagation = (e) => {
   e.stopPropagation()

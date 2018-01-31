@@ -2,9 +2,9 @@ import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import { Button, Menu, Anchor } from "grommet"
 import LoginIcon from "grommet/components/icons/base/Login"
-import { Layer } from "../../shared"
-import Auth from "../Auth"
-import Avatar from "../Avatar"
+import { Layer } from "../shared"
+import Form from "./Form"
+import Avatar from "./Avatar"
 
 export default class UserNav extends Component {
   state = {
@@ -50,7 +50,7 @@ export default class UserNav extends Component {
           overlayClose
           align="center"
           onClose={this.onToggle}>
-          <Auth {...this.props} />
+          <Form {...this.props} />
         </Layer>}
       </div>
     )

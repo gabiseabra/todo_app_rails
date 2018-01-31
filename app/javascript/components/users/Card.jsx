@@ -1,6 +1,6 @@
 import React from "react"
 import { Heading } from "grommet"
-import Avatar from "../Avatar"
+import Avatar from "./Avatar"
 
 export default function Card({ username, avatar_url: avatar }) {
   return (

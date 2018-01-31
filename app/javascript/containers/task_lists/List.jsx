@@ -1,9 +1,9 @@
 import React from "react"
 import { inject, observer } from "mobx-react"
-import { TaskLists } from "@/components/task_lists"
+import { List } from "@/components/task_lists"
 import { Loader } from "../shared"
 
-function TaskListsApp({ user: userId, users, taskLists, ...props }) {
+function TaskListsListApp({ user: userId, users, taskLists, ...props }) {
   const user = users.get(userId)
   const lists = taskLists.getScope(userId)
   const editableProps = {}
@@ -16,9 +16,9 @@ function TaskListsApp({ user: userId, users, taskLists, ...props }) {
       loading={taskLists.loading}
       error={taskLists.error}
       valid={typeof lists !== "undefined"}>
-      <TaskLists user={user} {...props} {...editableProps}>{lists}</TaskLists>
+      <List user={user} {...props} {...editableProps}>{lists}</List>
     </Loader>
   )
 }
 
-export default inject("taskLists", "users")(observer(TaskListsApp))
+export default inject("taskLists", "users")(observer(TaskListsListApp))

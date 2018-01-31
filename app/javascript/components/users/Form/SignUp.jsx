@@ -1,6 +1,6 @@
 import React from "react"
 import { PasswordInput } from "grommet"
-import { Form } from "../../../shared"
+import { Form } from "../../shared"
 
 const FIELDS = {
   email: {

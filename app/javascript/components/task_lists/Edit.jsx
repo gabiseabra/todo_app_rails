@@ -1,7 +1,7 @@
 import React from "react"
-import { Form } from "../../shared"
+import { Form } from "../shared"
 
-export default function TaskListForm(props) {
+export default function EditTaskList(props) {
   return (
     <Form {...props}>
       {{

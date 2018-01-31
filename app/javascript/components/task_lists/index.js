@@ -1,2 +1,3 @@
-export { default as TaskLists } from "./TaskLists"
-export { default as TaskList } from "./TaskList"
+export { default as Edit } from "./Edit"
+export { default as Card } from "./Card"
+export { default as List } from "./List"

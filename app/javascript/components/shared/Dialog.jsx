@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import { Box, Button } from "grommet"
-import Layer from "../Layer"
+import Layer from "./Layer"
 
 
 export default function Dialog({ children, title, critical, buttonLabel, onCancel, onConfirm }) {
