@@ -39,6 +39,7 @@
     "comma-dangle": ["error", "never"],
     "array-bracket-spacing": ["error", "always"],
     "semi": ["error", "never"],
+    "no-else-return": "off",
     "global-require": "warn",
     "class-methods-use-this": "off",
     "react/prop-types": "warn",
