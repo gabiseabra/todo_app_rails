@@ -3,17 +3,18 @@ import { inject, observer } from "mobx-react"
 import { TaskLists } from "@/components/task_lists"
 import { Loader } from "../shared"
 
-function TaskListsApp({ user, taskLists, ...props }) {
-  const lists = taskLists.getScope(`/users/${user}`)
+function TaskListsApp({ user: userId, users, taskLists, ...props }) {
+  const user = users.get(userId)
+  const lists = taskLists.getScope(userId)
   return (
     <Loader
-      load={() => taskLists.fetchScope(user)}
+      load={() => taskLists.fetchScope(userId)}
       loading={taskLists.loading}
       error={taskLists.error}
       valid={typeof lists !== "undefined"}>
-      <TaskLists {...props}>{lists}</TaskLists>
+      <TaskLists user={user} {...props}>{lists}</TaskLists>
     </Loader>
   )
 }
 
-export default inject("taskLists")(observer(TaskListsApp))
+export default inject("taskLists", "users")(observer(TaskListsApp))
