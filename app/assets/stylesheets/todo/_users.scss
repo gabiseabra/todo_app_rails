@@ -1,0 +1,21 @@
+$Avatar--sizes: (small: 40px, medium: 100px, large: 250px);
+
+.Users-Avatar {
+  border-radius: 50%;
+  overflow: hidden;
+  @each $name, $size in $Avatar--sizes {
+    &--#{$name} {
+      width: $size;
+      height: $size;
+    }
+  }
+}
+
+.Users-Card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}

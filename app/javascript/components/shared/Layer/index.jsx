@@ -1,7 +1,7 @@
 import React from "react"
-import { Layer } from "grommet"
+import { Layer, Title } from "grommet"
 
-export default function AppLayer(props) {
+export default function AppLayer({ children, title, ...props }) {
   return (
     <Layer
       flush
@@ -9,6 +9,9 @@ export default function AppLayer(props) {
       overlayClose
       align="center"
       className="Shared-Layer"
-      {...props} />
+      {...props}>
+      {title && <Title className="Shared-Layer--title">{title}</Title>}
+      {children}
+    </Layer>
   )
 }

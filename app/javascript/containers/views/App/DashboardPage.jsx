@@ -11,7 +11,7 @@ function UserPage({ users }) {
   return (
     <Page>
       <Card user={users.currentUser.id} />
-      <TaskLists user={users.currentUser.id} />
+      <TaskLists editable user={users.currentUser.id} />
       <LayerRoute exact path="/lists/:id">
         <div>
           heyy lmao
