@@ -41,6 +41,10 @@ class Todo::TasksController < TodoController
   end
 
   private
+    def todo_task_list
+      @todo_task_list || @todo_task.task_list
+    end
+
     def set_todo_task_list
       @todo_task_list = Todo::TaskList.find(params[:task_list_id])
     end
@@ -51,8 +55,7 @@ class Todo::TasksController < TodoController
     end
 
     def set_todo_user
-      parent = @todo_task_list || @todo_task.task_list
-      @todo_user = parent.user
+      @todo_user = todo_task_list.user
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
@@ -61,6 +64,6 @@ class Todo::TasksController < TodoController
     end
 
     def validate_task_list_scope
-      head 401 unless is_current_todo_user? || @todo_task_list.public?
+      head 401 unless is_current_todo_user? || todo_task_list.public?
     end
 end

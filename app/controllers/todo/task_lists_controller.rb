@@ -2,11 +2,12 @@ class Todo::TaskListsController < TodoController
   before_action :set_todo_task_list, only: %i[show update destroy]
   before_action :set_todo_user
   before_action :authenticate_todo_user, only: %i[create update destroy]
-  before_action :validate_task_list_scope, only: %i[index show]
+  before_action :validate_task_list_scope, only: %i[show]
 
   # GET /api/users/1/lists.json
   def index
     @todo_task_lists = @todo_user.task_lists
+    @todo_task_lists = @todo_task_lists.visible unless is_current_todo_user?
   end
 
   # GET /api/lists/1.json

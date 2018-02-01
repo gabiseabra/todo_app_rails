@@ -21,9 +21,9 @@ class Todo::User < ApplicationRecord
   # Disable email confirmation
   def confirmed?; true end
 
-  def to_param
-    username
-  end
+  # def to_param
+  #   username
+  # end
 
   def avatar_url
     # Temporary avatar url
