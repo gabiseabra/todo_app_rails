@@ -10,8 +10,8 @@ export default class ResourceComponent extends Component {
   onChange = ({ target }) => this.setState({ [target.name]: target.value })
 
   // onChange for checkboxes
-  onCheck = ({ target }) => {
-    this.setState({ [target.name]: Boolean(target.checked) })
+  onCheck = async ({ target }) => {
+    await this.setState({ [target.name]: Boolean(target.checked) })
     this.onSubmit()
   }
 
@@ -30,7 +30,7 @@ export default class ResourceComponent extends Component {
     if(_.isEqual(this.state, this.attrs)) return
     if(this.exists) this.onUpdate()
     else this.onCreate()
-    e.preventDefault()
+    if(e) e.preventDefault()
   }
 
   onDelete = () => {
