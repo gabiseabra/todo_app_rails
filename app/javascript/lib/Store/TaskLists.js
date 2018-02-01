@@ -12,7 +12,6 @@ const collect = key => _.flow(
 )
 
 const collectUsers = collect("user")
-const collectTasks = collect("tasks")
 
 export default class TaskLists extends ResourceStore {
   pagination = observable.object({})
@@ -22,23 +21,26 @@ export default class TaskLists extends ResourceStore {
   get(id) {
     const data = super.get(id)
     data.user = this.store.users.get(data.user_id)
-    data.tasks = this.store.users.getScope(data.id)
+    data.tasks = this.store.tasks.getScope(data.id)
     return data
   }
 
-  getFeed() { return this.getScope("@feed") }
+  getFeed() { return this.getAll(this.scopes.get("@@feed")) }
 
-  hydrate(collection) {
+  hydrate(collection, ...args) {
     const { users, tasks } = this.store
-    console.log(users, tasks)
-    super.hydrate(collection)
+    super.hydrate(collection, ...args)
     users.hydrate(collectUsers(collection))
-    tasks.hydrate(collectTasks(collection))
+    collection.forEach((data) => {
+      if(data.tasks) {
+        const scope = tasks.getScope(data.id)
+        tasks.hydrate(scope, byId(data.tasks))
+      }
+    })
   }
 
   @asyncAction async fetchFeed() {
-    const { data, pagination } = await this.api.json("")
-    this.hydrate(byId(data), "@feed")
-    Object.assign(this.pagination, pagination)
+    const response = await this.api.json("")
+    this.hydrateCollection({ ...response, scope: "@@feed" })
   }
 }
