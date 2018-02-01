@@ -1,11 +1,21 @@
 import React from "react"
-import { Article, Heading } from "grommet"
+import { withRouter } from "react-router-dom"
+import PrevIcon from "grommet/components/icons/base/LinkPrevious"
+import { Article, Header, Heading, Button } from "grommet"
 
-export default function Page({ title, children }) {
+function Page({ title, returnTo, children, history }) {
   return (
     <Article>
-      {title && <Heading>{title}</Heading>}
+      <Header className="App-Page--header">
+        {returnTo &&
+        <Button
+          icon={<PrevIcon />}
+          onClick={() => history.push(returnTo)} />}
+        {title && <Heading tag="h2">{title}</Heading>}
+      </Header>
       {children}
     </Article>
   )
 }
+
+export default withRouter(Page)

@@ -16,6 +16,7 @@ export default class TaskListForm extends ResourceComponent {
         <input
           type="text"
           name="title"
+          placeholder="Title"
           value={title}
           onChange={this.onChange}
           onBlur={this.onSubmit} />

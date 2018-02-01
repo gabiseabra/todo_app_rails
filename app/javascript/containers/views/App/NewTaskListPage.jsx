@@ -6,7 +6,9 @@ import * as TaskLists from "../../task_lists"
 function NewTaskListPage({ users, taskLists, match }) {
   const { params: { id } } = match
   return (
-    <Page title="New List">
+    <Page
+      returnTo="/me"
+      title="New List">
       <TaskLists.New userId={users.currentUserId} id={id} />
     </Page>
   )

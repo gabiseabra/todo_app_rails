@@ -5,7 +5,9 @@ import * as TaskLists from "../../task_lists"
 export default function EditTaskListPage({ match }) {
   const { params: { id } } = match
   return (
-    <Page title={`Edit List #${id}`}>
+    <Page
+      returnTo="/me"
+      title={`Edit List #${id}`}>
       <TaskLists.Edit id={id} />
     </Page>
   )
