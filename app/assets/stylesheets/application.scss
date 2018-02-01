@@ -15,3 +15,13 @@
  *= require ./todo
  *= require ./grommet
  */
+
+.form__inline {
+  display: inline-block;
+  width: 100%;
+}
+
+.form-field__plain {
+  border-color: transparent !important;
+  // outline: none !important;
+}

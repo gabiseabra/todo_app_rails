@@ -13,20 +13,24 @@ export default class TaskListForm extends ResourceComponent {
   render() {
     return (
       <Form className="TaskLists-Form" onSubmit={this.onSubmit}>
-        <input
-          className="form-field__plain"
-          type="text"
-          name="title"
-          placeholder="Title"
-          value={this.state.title}
-          onChange={this.onChange}
-          onBlur={this.onSubmit} />
-        <CheckBox
-          toggle
-          name="public"
-          label="Public"
-          checked={this.state.public}
-          onChange={this.onCheck} />
+        <div className="TaskLists-Form--title">
+          <input
+            className="form-field__plain"
+            type="text"
+            name="title"
+            placeholder="Title"
+            value={this.state.title}
+            onChange={this.onChange}
+            onBlur={this.onSubmit} />
+        </div>
+        <div className="TaskLists-Form--public">
+          <CheckBox
+            toggle
+            name="public"
+            label="Public"
+            checked={this.state.public}
+            onChange={this.onCheck} />
+        </div>
       </Form>
     )
   }
