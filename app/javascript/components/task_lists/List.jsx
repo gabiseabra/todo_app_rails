@@ -1,7 +1,7 @@
 import autobind from "autobind-decorator"
 import React, { Component, Fragment } from "react"
 import { withRouter } from "react-router-dom"
-// import AddIcon from "grommet/components/icons/base/Add"
+import AddIcon from "grommet/components/icons/base/Add"
 import RemoveIcon from "grommet/components/icons/base/Trash"
 import ViewIcon from "grommet/components/icons/base/View"
 import { List, ListItem, Button } from "grommet"
@@ -12,6 +12,8 @@ const stopPropagation = (e) => {
 }
 
 class TaskLists extends Component {
+  onNew = () => this.props.history.push("/my/lists/new")
+
   onSelect = (i) => {
     const { editable, history } = this.props
     history.push(editable ? this.editUrl(i) : this.viewUrl(i))
@@ -70,12 +72,21 @@ class TaskLists extends Component {
   }
 
   render() {
-    const { children } = this.props
+    const { children, editable } = this.props
 
     return (
-      <List selectable onSelect={this.onSelect}>
-        {children.map(this.renderNode)}
-      </List>
+      <div>
+        <List selectable onSelect={this.onSelect}>
+          {children.map(this.renderNode)}
+        </List>
+        {editable &&
+        <Button
+          primary
+          fill
+          label="New List"
+          icon={<AddIcon />}
+          onClick={this.onNew} />}
+      </div>
     )
   }
 }
