@@ -1,6 +1,6 @@
 class Todo::TasksController < TodoController
   before_action :set_todo_task, only: %i[show update destroy]
-  before_action :set_todo_task_list, only: %i[index create update]
+  before_action :set_todo_task_list, only: %i[index create]
   before_action :set_todo_user
   before_action :authenticate_todo_user, only: %i[create update destroy]
 
