@@ -4,5 +4,7 @@ class Todo::TaskList < ApplicationRecord
   belongs_to :user
   has_many :tasks, -> { order(position: :asc) }
 
+  self.per_page = 15
+
   validates :title, presence: true
 end
