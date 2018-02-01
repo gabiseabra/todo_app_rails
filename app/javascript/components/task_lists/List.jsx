@@ -48,8 +48,9 @@ class TaskLists extends Component {
     if(!editable) return null
     return (
       <Fragment>
-        <Button icon={<RemoveIcon />} onClick={this.onRemove(i)} />
+        <Button title="Remove" icon={<RemoveIcon />} onClick={this.onRemove(i)} />
         <Button
+          title="View"
           href={`/#${this.viewUrl(i)}`}
           target="_blank"
           rel="noopener noreferrer"
@@ -60,13 +61,26 @@ class TaskLists extends Component {
   }
 
   @autobind
+  renderIndicators(node) {
+    if(node.public) return null
+    return (
+      <Button
+        title="Private"
+        icon={<ViewIcon />} />
+    )
+  }
+
+  @autobind
   renderNode(node, i) {
     const { id, title } = node
 
     return (
       <ListItem justify="between" key={id}>
         <span>{title}</span>
-        <span>{this.renderControls(node, i)}</span>
+        <span>
+          {this.renderIndicators(node, i)}
+          {this.renderControls(node, i)}
+        </span>
       </ListItem>
     )
   }

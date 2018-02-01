@@ -45,14 +45,16 @@ export default class Task extends ResourceComponent {
 
     return (
       <ListItem justify="between">
-        <span>
+        <span className="Tasks-Form--body">
           <CheckBox
             name="checked"
             checked={checked}
             disabled={!this.exists || disabled}
             onChange={this.onCheck} />
-          <Form plain style={{ display: "inline" }} onSubmit={this.onSubmit}>
+          <Form plain className="form__inline" onSubmit={this.onSubmit}>
             <input
+              className="form-field__plain"
+              style={{ width: "100%" }}
               type="text"
               name="body"
               disabled={disabled}

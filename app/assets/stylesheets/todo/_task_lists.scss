@@ -1,0 +1,16 @@
+.TaskLists-Form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100% !important;
+  margin-bottom: 15px;
+
+  .TaskLists-Form--title {
+    flex: 1 1 100%;
+    font-size: 1.5em;
+  }
+
+  .TaskLists-Form--public {
+    flex: 0 0 auto;
+  }
+}
