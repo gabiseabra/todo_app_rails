@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
-  root to: 'home#index'
-
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :todo, path: '/api' do
+    root to: 'home#index'
+
     devise_for :users, path: 'auth', class_name: Todo::User.name, controllers: {
       sessions: 'todo/auth/sessions',
       registrations: 'todo/auth/registrations',
@@ -15,4 +14,6 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  root to: 'home#index'
 end
