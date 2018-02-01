@@ -1,25 +1,32 @@
 import React from "react"
-import { Form } from "grommet"
+import { Form, CheckBox } from "grommet"
 import { ResourceComponent } from "../shared"
 
 export default class TaskListForm extends ResourceComponent {
   static defaultProps = {
-    title: ""
+    title: "",
+    private: false
   }
 
-  static attrs = [ "title" ]
+  static attrs = [ "title", "private" ]
 
   render() {
-    const { title } = this.state
     return (
-      <Form onSubmit={this.onSubmit}>
+      <Form className="TaskLists-Form" onSubmit={this.onSubmit}>
         <input
+          className="form__plain"
           type="text"
           name="title"
           placeholder="Title"
-          value={title}
+          value={this.state.title}
           onChange={this.onChange}
           onBlur={this.onSubmit} />
+        <CheckBox
+          toggle
+          name="private"
+          label="Private"
+          checked={this.state.private}
+          onChange={this.onCheck} />
       </Form>
     )
   }
