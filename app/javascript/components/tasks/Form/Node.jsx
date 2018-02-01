@@ -6,10 +6,12 @@ import { ListItem, CheckBox, Button } from "grommet"
 import { ResourceComponent } from "../../shared"
 
 export default class Task extends ResourceComponent {
-  state = {
-    checked: false,
+  static defaultProps = {
+    checked: true,
     body: ""
   }
+
+  static attrs = [ "checked", "body" ]
 
   @autobind
   renderControls() {
@@ -44,7 +46,12 @@ export default class Task extends ResourceComponent {
             checked={checked}
             disabled={disabled}
             onChange={this.onCheck} />}
-          <input type="text" disabled={disabled} value={body} />
+          <input
+            type="text"
+            name="body"
+            disabled={disabled}
+            value={body}
+            onChange={this.onChange} />
         </span>
         <span>
           {this.renderControls()}

@@ -19,6 +19,8 @@ class LayerRoute extends Component {
   renderRoute() {
     const { children } = this.props
 
+    console.log("...")
+
     return (
       <Layer
         closer

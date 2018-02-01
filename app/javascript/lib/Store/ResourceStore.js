@@ -33,7 +33,8 @@ export default class ResourceStore extends BaseStore {
   @asyncAction async create(...args) {
     const { data, scope } = await this.endpoint.create(...args)
     this.registry.set(data.id, data)
-    this.scopes.get(scope).push(data.id)
+    if(this.scopes.has(scope)) this.scopes.get(scope).push(data.id)
+    return data.id
   }
 
   @asyncAction async update(...args) {

@@ -3,9 +3,11 @@ import { Form } from "grommet"
 import { ResourceComponent } from "../shared"
 
 export default class TaskListForm extends ResourceComponent {
-  state = {
+  static defaultProps = {
     title: ""
   }
+
+  static attrs = [ "title" ]
 
   render() {
     const { title } = this.state
