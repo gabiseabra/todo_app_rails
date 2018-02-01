@@ -3,3 +3,4 @@
 <%= javascript_pack_tag 'common' %>
 <%= javascript_pack_tag 'todo' %>
 <%= stylesheet_link_tag 'application', media: 'all' %>
+<link rel="preload" as="fetch" href="<%= todo_root_path(format: :json) %>">
