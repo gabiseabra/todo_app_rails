@@ -65,3 +65,6 @@ gem 'acts_as_list'
 # Authentication
 gem 'devise'
 gem 'simple_token_authentication'
+
+# Pagination
+gem 'will_paginate'
