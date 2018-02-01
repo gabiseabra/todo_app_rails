@@ -54,7 +54,7 @@ class Todo::TaskListsController < TodoController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def todo_task_list_params
-    params.require(:todo_task_list).permit(:title, :private)
+    params.require(:todo_task_list).permit(:title, :public)
   end
 
   def validate_task_list_scope
