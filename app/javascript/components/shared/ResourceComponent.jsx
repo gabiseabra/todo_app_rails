@@ -15,11 +15,21 @@ export default class ResourceComponent extends Component {
     this.onSubmit()
   }
 
+  onCreate = (e) => {
+    this.props.onCreate(this.state)
+    if(e) e.preventDefault()
+  }
+
+  onUpdate = (e) => {
+    const { onUpdate, id } = this.props
+    onUpdate(id, this.state)
+    if(e) e.preventDefault()
+  }
+
   onSubmit = (e) => {
-    const { onCreate, onUpdate, id } = this.props
     if(_.isEqual(this.state, this.attrs)) return
-    if(this.exists) onUpdate(id, this.state)
-    else onCreate(this.state)
+    if(this.exists) this.onUpdate()
+    else this.onCreate()
     e.preventDefault()
   }
 

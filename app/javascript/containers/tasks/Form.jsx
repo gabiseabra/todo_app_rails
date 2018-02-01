@@ -12,7 +12,7 @@ function EditTasksApp({ id, tasks, ...props }) {
       error={tasks.error}
       valid={typeof data !== "undefined"}>
       <Form
-        onCreate={tasks.create}
+        onCreate={(...args) => tasks.create(id, ...args)}
         onUpdate={tasks.update}
         onDelete={tasks.delete}
         {...props}>

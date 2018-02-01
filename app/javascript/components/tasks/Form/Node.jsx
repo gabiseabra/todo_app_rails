@@ -2,16 +2,22 @@ import autobind from "autobind-decorator"
 import React from "react"
 import AddIcon from "grommet/components/icons/base/Add"
 import RemoveIcon from "grommet/components/icons/base/Trash"
-import { ListItem, CheckBox, Button } from "grommet"
+import { Form, ListItem, CheckBox, Button } from "grommet"
 import { ResourceComponent } from "../../shared"
 
 export default class Task extends ResourceComponent {
   static defaultProps = {
-    checked: true,
+    checked: false,
     body: ""
   }
 
   static attrs = [ "checked", "body" ]
+
+  onCreate = (e) => {
+    this.props.onCreate(this.state)
+    this.setState(this.constructor.defaultProps)
+    if(e) e.preventDefault()
+  }
 
   @autobind
   renderControls() {
@@ -40,18 +46,20 @@ export default class Task extends ResourceComponent {
     return (
       <ListItem justify="between">
         <span>
-          {this.exists &&
           <CheckBox
             name="checked"
             checked={checked}
-            disabled={disabled}
-            onChange={this.onCheck} />}
-          <input
-            type="text"
-            name="body"
-            disabled={disabled}
-            value={body}
-            onChange={this.onChange} />
+            disabled={!this.exists || disabled}
+            onChange={this.onCheck} />
+          <Form plain style={{ display: "inline" }} onSubmit={this.onSubmit}>
+            <input
+              type="text"
+              name="body"
+              disabled={disabled}
+              value={body}
+              onBlur={this.onSubmit}
+              onChange={this.onChange} />
+          </Form>
         </span>
         <span>
           {this.renderControls()}
