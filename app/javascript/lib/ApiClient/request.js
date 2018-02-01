@@ -5,7 +5,8 @@ import encoded from "form-urlencoded"
 const snakeCaseKeys = _.mapKeys(_.snakeCase)
 
 function prependUrl([ path, init ]) {
-  return [ `${this.url}/${path.replace(/^\//, "")}`, init ]
+  const newPath = path ? `/${path.replace(/^\//, "")}` : ".json"
+  return [ this.url + newPath, init ]
 }
 
 function authenticate([ path, init ]) {

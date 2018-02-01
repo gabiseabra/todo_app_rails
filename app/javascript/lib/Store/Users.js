@@ -14,6 +14,8 @@ export default class Users extends BaseStore {
     this.setCurrentUser(options.currentUser)
   }
 
+  hydrate(collection) { this.registry.merge(collection) }
+
   @asyncAction async signUp(options) {
     const { data } = await this.api.auth.signUp(options)
     this.setCurrentUser(data)
@@ -32,7 +34,7 @@ export default class Users extends BaseStore {
   setCurrentUser(user) {
     if(user) {
       this.currentUserId = user.id
-      this.registry.set(user.id, user)
+      this.hydrate({ [user.id]: user })
     } else {
       this.currentUserId = undefined
     }
