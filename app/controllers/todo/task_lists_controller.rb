@@ -2,6 +2,7 @@ class Todo::TaskListsController < TodoController
   before_action :set_todo_task_list, only: %i[show update destroy]
   before_action :set_todo_user
   before_action :authenticate_todo_user, only: %i[create update destroy]
+  before_action :validate_task_list_scope, only: %i[index show]
 
   # GET /api/users/1/lists.json
   def index
@@ -52,5 +53,9 @@ class Todo::TaskListsController < TodoController
   # Never trust parameters from the scary internet, only allow the white list through.
   def todo_task_list_params
     params.require(:todo_task_list).permit(:title)
+  end
+
+  def validate_task_list_scope
+    head 401 unless is_current_todo_user? || @todo_task_list.public?
   end
 end
