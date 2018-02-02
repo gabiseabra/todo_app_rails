@@ -8,7 +8,7 @@ const stopPropagation = e => e.stopPropagation()
 
 function Node({ id, title, user, ...props }) {
   return (
-    <ListItem focusable data-key={id}>
+    <ListItem data-key={id}>
       <span style={{ flex: "1 1 100%" }}>{title}</span>
       <span style={{ flex: "0 0 auto" }}><Details {...props} /></span>
       <span style={{ flex: "0 0 auto", marginLeft: "15px" }}>

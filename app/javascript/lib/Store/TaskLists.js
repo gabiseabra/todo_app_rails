@@ -26,9 +26,11 @@ export default class TaskLists extends ResourceStore {
     return { ...data, ...relations }
   }
 
+  getFeedData() { return this.scopes.get("@@feed") || { pages: {}, pagination: {} } }
+
   getFeed(page) {
-    const feed = this.scopes.get("@@feed")
-    if(feed && feed.pages[page]) return this.getAll(feed.pages[page])
+    const feed = this.getFeedData()
+    if(feed.pages[page]) return this.getAll(feed.pages[page])
     else return undefined
   }
 
