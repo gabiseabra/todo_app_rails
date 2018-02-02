@@ -7,6 +7,7 @@ function TaskListsFeedApp({ taskLists, search, ...props }) {
   const lists = taskLists.getFeed()
   return (
     <Loader
+      force
       load={() => taskLists.fetchFeed(search)}
       loading={taskLists.loading}
       error={taskLists.error}
