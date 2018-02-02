@@ -1,0 +1,37 @@
+sudo: false
+language: node_js
+node_js: "7"
+
+cache:
+  bundler: true
+  yarn: true
+  directories:
+    - node_modules
+    - public
+    - tmp
+
+env:
+  # Build options
+  - GCLOUD_PROJECT_ID="todo-app-rails"
+    GCLOUD_KEYFILE=
+
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+
+install:
+  - bundle install
+  - yarn install --pure-lockfile
+
+script:
+  - yarn run test
+  # @TODO
+  # - yarn run lint
+
+# deploy:
+#   provider: gae
+#   keyfile: $GCLOUD_KEYFILE
+#   project: $GCLOUD_PROJECT_ID
+#   on:
+#     branch: master
