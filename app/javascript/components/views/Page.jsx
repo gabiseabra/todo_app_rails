@@ -6,13 +6,14 @@ import { Article, Header, Heading, Button } from "grommet"
 function Page({ title, returnTo, children, history }) {
   return (
     <Article>
+      {title &&
       <Header className="App-Page--header">
         {returnTo &&
         <Button
           icon={<PrevIcon />}
           onClick={() => history.push(returnTo)} />}
-        {title && <Heading tag="h2">{title}</Heading>}
-      </Header>
+        <Heading tag="h2">{title}</Heading>
+      </Header>}
       {children}
     </Article>
   )

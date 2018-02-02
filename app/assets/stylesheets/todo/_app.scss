@@ -1,6 +1,10 @@
 .App--main {
-  margin: 40px 30px;
+  position: absolute;
+  top: 105px;
+  margin: 0 30px;
+  width: calc(100% - 60px);
 }
+
 .App-Header {
   display: flex;
   justify-content: space-between;

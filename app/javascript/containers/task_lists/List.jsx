@@ -11,6 +11,7 @@ function TaskListsListApp({ user: userId, taskLists, ...props }) {
   }
   return (
     <Loader
+      overlay
       load={() => taskLists.fetchScope(userId)}
       loading={taskLists.loading}
       error={taskLists.error}

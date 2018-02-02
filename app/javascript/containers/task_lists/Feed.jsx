@@ -8,6 +8,7 @@ function TaskListsFeedApp({ taskLists, search, ...props }) {
   return (
     <Loader
       force
+      overlay
       load={() => taskLists.fetchFeed(search)}
       loading={taskLists.loading}
       error={taskLists.error}
