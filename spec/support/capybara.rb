@@ -23,6 +23,6 @@ if ENV['SELENIUM_SERVER']
 end
 
 Capybara.default_max_wait_time = 10
-Capybara.app_host    = ENV.fetch('CAPYBARA_APP_HOST', 'https://localhost:3001')
-Capybara.server_host = ENV.fetch('CAPYBARA_SERVER_HOST', '0.0.0.0')
-Capybara.server_port = ENV.fetch('CAPYBARA_SERVER_PORT', '3001')
+Capybara.app_host    = ENV.fetch('APP_HOST', 'https://localhost:3001')
+Capybara.server_host = ENV.fetch('SERVER_HOST', '0.0.0.0')
+Capybara.server_port = ENV.fetch('SERVER_PORT', '3001')
