@@ -1,24 +1,31 @@
-# README
+# Todo App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Installation
 
-Things you may want to cover:
+1. Clone this repository
 
-* Ruby version
+```sh
+git clone https://github.com/gabiseabra/todo_app_rails.git
+cd todo_app_rails
+```
 
-* System dependencies
+2. Install dependencies
 
-* Configuration
+```sh
+yarn
+bundle
+```
 
-* Database creation
+3. Setup the database
 
-* Database initialization
+```sh
+rails db:setup
+```
 
-* How to run the test suite
+## Development
 
-* Services (job queues, cache servers, search engines, etc.)
+Run the `start:dev` script to start the app in development mode.
 
-* Deployment instructions
-
-* ...
+```sh
+yarn run start:dev
+```
