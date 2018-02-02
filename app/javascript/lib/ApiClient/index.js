@@ -22,8 +22,7 @@ export default class ApiClient {
   likes = new Resource(this, {
     name: "todo_like",
     path: "likes",
-    parent: [ "users" ],
-    shallow: true
+    parent: [ "users" ]
   })
 
   taskLists = new Resource(this, {

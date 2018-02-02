@@ -11,7 +11,7 @@ RSpec.describe Todo::UsersController, type: :routing do
     end
 
     it 'routes to #destroy' do
-      { delete: '/api/likes/1' }.should route_to('todo/likes#destroy', id: '1')
+      { delete: '/api/users/1/likes/1' }.should route_to('todo/likes#destroy', user_id: '1', id: '1')
     end
   end
 end

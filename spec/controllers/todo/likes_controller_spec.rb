@@ -68,7 +68,7 @@ RSpec.describe Todo::LikesController, type: :controller do
 
   describe 'DELETE #destroy' do
     let(:subject) { likes.last }
-    let(:request!) { delete :destroy, format: :json, params: { id: subject.id } }
+    let(:request!) { delete :destroy, format: :json, params: { user_id: user.to_param, id: subject.to_param } }
 
     authentication_context do
       it 'destroys the requested todo_like' do

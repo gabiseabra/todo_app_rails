@@ -32,15 +32,22 @@ export default class TaskLists extends BaseStore {
     })
   }
 
-  @asyncAction async create(task_list_id) {
+  @asyncAction async create(id) {
     const { currentUserId } = this.store.users
     if(!currentUserId) return
-    await this.endpoint.create(currentUserId, { task_list_id })
-    this.store.taskLists.scopes.delete("@@likes")
+    await this.endpoint.create(currentUserId, { task_list_id: id })
+    this.setLike(id, true)
   }
 
   @asyncAction async delete(id) {
-    await this.endpoint.delete(id)
+    const { currentUserId } = this.store.users
+    if(!currentUserId) return
+    await this.endpoint.delete(this.currentUserId, id)
+    this.setLike(id, false)
+  }
+
+  setLike(id, state) {
     this.store.taskLists.scopes.delete("@@likes")
+    this.store.taskLists.registry.get(id).likes = state
   }
 }

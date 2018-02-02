@@ -1,6 +1,6 @@
 class Todo::LikesController < TodoController
-  before_action :set_todo_like, only: %i[destroy]
   before_action :set_todo_user
+  before_action :set_todo_like, only: %i[destroy]
   before_action :authenticate_todo_user
 
   # GET /todo/likes
@@ -34,12 +34,14 @@ class Todo::LikesController < TodoController
   private
     def set_todo_user
       @todo_user = Todo::User.find(params[:user_id]) if params[:user_id]
-      @todo_user ||= @todo_like.user
     end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_todo_like
-      @todo_like = Todo::Like.find(params[:id])
+      @todo_like = Todo::User.find_by(
+        user_id: params[:user_id],
+        task_list_id: params[:id]
+      )
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
