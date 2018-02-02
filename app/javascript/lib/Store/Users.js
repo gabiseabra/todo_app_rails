@@ -18,6 +18,12 @@ export default class Users extends BaseStore {
   hydrateCollection({ data }) { this.registry.merge(_.keyBy(data, "id")) }
   hydrate({ id, data }) { this.registry.set(id, data) }
 
+  invalidateId(id) {
+    const { taskLists } = this.store
+    const scope = taskLists.endpoint.scope(id)
+    taskLists.scopes.delete(scope)
+  }
+
   @asyncAction async signUp(options) {
     const { data } = await this.api.auth.signUp(options)
     this.setCurrentUser(data)
@@ -25,15 +31,17 @@ export default class Users extends BaseStore {
 
   @asyncAction async signIn(options) {
     const { data } = await this.api.auth.signIn(options)
+    this.invalidateId(data.id)
     this.setCurrentUser(data)
   }
 
   @asyncAction async signOut() {
-    return this.api.auth.signOut().then(() => this.setCurrentUser(null))
+    await this.api.auth.signOut()
+    this.invalidateId(this.currentUserId)
+    this.setCurrentUser(null)
   }
 
-  @action
-  setCurrentUser(user) {
+  @action setCurrentUser(user) {
     if(user) {
       this.currentUserId = user.id
       this.hydrate({ id: user.id, data: user })
