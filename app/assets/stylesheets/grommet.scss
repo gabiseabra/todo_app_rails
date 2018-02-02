@@ -3,8 +3,8 @@
  */
 
 .grommet {
-  .grommetux-drop {
-    z-index: 100;
+  &.grommetux-drop {
+    z-index: 500 !important;
   }
   .grommetux-layer__container {
     width: auto;
