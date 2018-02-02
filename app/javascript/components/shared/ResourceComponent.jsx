@@ -1,6 +1,11 @@
 import _ from "lodash"
 import { Component } from "react"
 
+const preventDefault = (e) => {
+  e.preventDefault()
+  e.stopPropagation()
+}
+
 export default class ResourceComponent extends Component {
   constructor(props) {
     super(props)
@@ -16,21 +21,21 @@ export default class ResourceComponent extends Component {
   }
 
   onCreate = (e) => {
+    if(e) preventDefault(e)
     this.props.onCreate(this.state)
-    if(e) e.preventDefault()
   }
 
   onUpdate = (e) => {
     const { onUpdate, id } = this.props
+    if(e) preventDefault(e)
     onUpdate(id, this.state)
-    if(e) e.preventDefault()
   }
 
   onSubmit = (e) => {
+    if(e) preventDefault(e)
     if(_.isEqual(this.state, this.attrs)) return
     if(this.exists) this.onUpdate()
     else this.onCreate()
-    if(e) e.preventDefault()
   }
 
   onDelete = () => {
