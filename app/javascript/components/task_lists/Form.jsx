@@ -5,7 +5,7 @@ import { ResourceComponent } from "../shared"
 export default class TaskListForm extends ResourceComponent {
   static defaultProps = {
     title: "",
-    public: false
+    public: true
   }
 
   static attrs = [ "title", "public" ]
