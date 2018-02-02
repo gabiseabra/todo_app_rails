@@ -5,7 +5,6 @@ import { Loader } from "../shared"
 
 function TaskListsCardApp({ id, taskLists, ...props }) {
   const data = taskLists.get(id)
-  console.log(data)
   return (
     <Loader
       load={() => taskLists.fetch(id)}

@@ -6,10 +6,12 @@ export default function TaskList({ tasks }) {
     <List>
       {tasks.map(({ body, id, checked }) => (
         <ListItem key={id}>
-          <CheckBox
-            disabled
-            checked={checked} />
-          {body}
+          <span>
+            <CheckBox
+              disabled
+              checked={checked} />
+          </span>
+          <span>{body}</span>
         </ListItem>
       ))}
     </List>
