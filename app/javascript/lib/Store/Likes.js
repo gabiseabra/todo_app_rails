@@ -5,7 +5,7 @@ import BaseStore, { asyncAction } from "./BaseStore"
 export default class TaskLists extends BaseStore {
   get endpoint() { return this.api.likes }
 
-  @computed get valid() { return Boolean(this.store.users.currentUserId) }
+  @computed get validScope() { return Boolean(this.store.users.currentUserId) }
 
   getPagination(id) { return this.getScopeData(id).pagination }
 

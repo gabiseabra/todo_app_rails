@@ -7,7 +7,10 @@ function TaskListsListApp({ user: userId, page, taskLists, likes, ...props }) {
   const { pagination } = taskLists.getScopeData(userId)
   const lists = taskLists.getScope(userId, page)
   const editableProps = {}
-  if(likes.valid) editableProps.onLike = likes.create
+  if(likes.validScope) {
+    editableProps.onLike = likes.create
+    editableProps.onDislike = likes.delete
+  }
   if(props.editable) editableProps.onDelete = taskLists.delete
   return (
     <Loader

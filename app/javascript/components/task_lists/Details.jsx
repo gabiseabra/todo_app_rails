@@ -8,7 +8,9 @@ const stopPropagation = fun => (e) => {
   fun(e)
 }
 
-export default function TaskListDetails({ onLike, id, ...data }) {
+export default function TaskListDetails({ onLike, onDislike, liked, id, ...data }) {
+  const likeCb = (liked ? onDislike : onLike)
+  const likeFn = likeCb ? stopPropagation(() => likeCb(id)) : undefined
   return (
     <div className="TaskLists-Details">
       {!data.public &&
@@ -19,9 +21,9 @@ export default function TaskListDetails({ onLike, id, ...data }) {
       </span>}
       <span>
         <Button
-          title="Like"
-          icon={<LikeIcon />}
-          onClick={onLike ? stopPropagation(() => onLike(id)) : undefined} />
+          title={liked ? "Unlike" : "Like"}
+          icon={<LikeIcon color={liked ? "primary" : "plain"} />}
+          onClick={likeFn} />
       </span>
       <span className="TaskLists-Details--progress">
         {data.progress_checked}/{data.progress_total}

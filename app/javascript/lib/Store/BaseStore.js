@@ -25,6 +25,7 @@ export function asyncAction(target, name, descriptor) {
   descriptor.value = async function awaitFun(...props) {
     this.loading = true
     this.error = undefined
+    this.valid = undefined
     let result
     try {
       result = await fun.call(this, ...props)
@@ -33,7 +34,7 @@ export function asyncAction(target, name, descriptor) {
       console.error(error)
     }
     this.loading = false
-    this.valid = true
+    if(typeof this.valid === "undefined") this.valid = true
     return result
   }
   return action.bound(target, name, descriptor)
