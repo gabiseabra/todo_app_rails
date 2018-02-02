@@ -6,9 +6,9 @@ import Details from "./Details"
 
 const stopPropagation = e => e.stopPropagation()
 
-function Node({ title, user, ...props }) {
+function Node({ id, title, user, ...props }) {
   return (
-    <ListItem className="TaskLists-Feed">
+    <ListItem focusable data-key={id}>
       <span style={{ flex: "1 1 100%" }}>{title}</span>
       <span style={{ flex: "0 0 auto" }}><Details {...props} /></span>
       <span style={{ flex: "0 0 auto", marginLeft: "15px" }}>

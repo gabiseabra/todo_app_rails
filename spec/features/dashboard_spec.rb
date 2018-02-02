@@ -6,10 +6,8 @@ RSpec.feature 'Dashboard', type: :feature, js: true do
     create_list(:todo_task_list, 10, user_id: user.id)
     user.task_lists
   end
-  let(:task_list_elements) do
-    find('.TaskLists-List ul li', match: :first)
-    page.all('.TaskLists-List ul li')
-  end
+  let(:task_list) { task_lists.last }
+  let(:element) { find(".TaskLists-List--item[data-key='#{task_list.id}']") }
 
   background do
     login_as(user, scope: :todo_user)
@@ -21,8 +19,12 @@ RSpec.feature 'Dashboard', type: :feature, js: true do
   end
 
   scenario 'user visits dashboard page' do
-    task_list_elements.each do |element, i|
-      element.should have_content(task_lists[i].title)
+    should_finish_loading
+
+    page.save_screenshot("screenie.png")
+    task_lists.each do |node|
+      el = find(".TaskLists-List--item[data-key='#{node.id}']")
+      el.should have_content(node.title)
     end
   end
 
@@ -36,29 +38,30 @@ RSpec.feature 'Dashboard', type: :feature, js: true do
       fill_in '...', with: "test 2\n"
     end
 
+    should_finish_loading
+
     Todo::TaskList.last.title.should == 'foo'
     Todo::TaskList.last.tasks.count.should == 2
   end
 
   scenario 'user deletes a task list' do
     lambda {
-      within(task_list_elements.first) do
-        find("button[title='Remove']").click
-      end
-    }.should change { user.reload.task_lists.count }.by(1)
+      within(element) { find('button[title="Remove"]').click }
+      click_on 'Delete'
+      should_finish_loading
+    }.should change { user.reload.task_lists.count }.by(-1)
   end
 
   scenario 'user edits a task list' do
-    click_on task_list_elements.first
-    task_list = task_lists.first
-
+    element.click
     lambda {
       fill_in 'Title', with: "foo\n"
-
       within '.Tasks-Form__new' do
         fill_in '...', with: "test 1\n"
       end
-      }.should change{ task_list.reload.title }.to('foo')
-       .and change{ task_list.reload.tasks.count }.by(1)
+      should_finish_loading
+      task_list.reload
+    }.should change{ task_list.title }.to('foo')
+     .and change{ task_list.tasks.count }.by(1)
   end
 end

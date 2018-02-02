@@ -66,7 +66,11 @@ class TaskLists extends Component {
     const { id, title } = node
 
     return (
-      <ListItem key={id}>
+      <ListItem
+        focusable
+        key={id}
+        data-key={id}
+        className="TaskLists-List--item">
         <span style={{ flex: "1 1 100%" }}>{title}</span>
         <span style={{ flex: "0 0 auto" }}><Details {...node} /></span>
         <span style={{ flex: "0 0 auto" }}>{this.renderControls(node, i)}</span>
