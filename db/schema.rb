@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180201203006) do
+ActiveRecord::Schema.define(version: 20180202181430) do
+
+  create_table "todo_likes", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "task_list_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_list_id"], name: "index_todo_likes_on_task_list_id"
+    t.index ["user_id", "task_list_id"], name: "index_todo_likes_on_user_id_and_task_list_id", unique: true
+    t.index ["user_id"], name: "index_todo_likes_on_user_id"
+  end
 
   create_table "todo_task_lists", force: :cascade do |t|
     t.integer "user_id"
