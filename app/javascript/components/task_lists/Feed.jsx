@@ -1,5 +1,5 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { Link, withRouter } from "react-router-dom"
 import { List, ListItem } from "grommet"
 import { Avatar } from "../users"
 import Details from "./Details"
@@ -20,10 +20,14 @@ function Node({ title, user, ...props }) {
   )
 }
 
-export default function TaskListsFeed({ children }) {
+function TaskListsFeed({ children, history }) {
   return (
-    <List>
+    <List
+      selectable
+      onSelect={i => history.push(`/lists/${children[i].id}`)}>
       {children.map(taskList => <Node key={taskList.id} {...taskList} />)}
     </List>
   )
 }
+
+export default withRouter(TaskListsFeed)
