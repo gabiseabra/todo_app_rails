@@ -13,7 +13,7 @@ function TaskListsFeedApp({ taskLists, likes, page, ...props }) {
   }
   return (
     <Loader
-      force={false}
+      force
       overlay
       load={() => taskLists.fetchFeed({ page })}
       loading={taskLists.loading}

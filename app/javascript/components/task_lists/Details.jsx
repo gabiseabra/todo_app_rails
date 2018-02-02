@@ -22,7 +22,7 @@ export default function TaskListDetails({ onLike, onDislike, liked, id, ...data 
       <span>
         <Button
           title={liked ? "Unlike" : "Like"}
-          icon={<LikeIcon color={liked ? "primary" : "plain"} />}
+          icon={<LikeIcon colorIndex={liked ? "brand" : "primary"} />}
           onClick={likeFn} />
       </span>
       <span className="TaskLists-Details--progress">
