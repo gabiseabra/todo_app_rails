@@ -1,7 +1,7 @@
 import React from "react"
 import { inject, observer } from "mobx-react"
 import { Feed } from "@/components/task_lists"
-import { Loader, Pagination } from "../shared"
+import { Loader, Pagination, withPagination } from "../shared"
 
 function TaskListsFeedApp({ taskLists, page, ...props }) {
   const { pagination } = taskLists.getFeedData()
@@ -15,9 +15,9 @@ function TaskListsFeedApp({ taskLists, page, ...props }) {
       error={taskLists.error}
       valid={typeof lists !== "undefined"}>
       <Feed {...props}>{lists}</Feed>
-      <Pagination {...pagination} />
+      <Pagination {...pagination} current_page={page} />
     </Loader>
   )
 }
 
-export default inject("taskLists")(observer(TaskListsFeedApp))
+export default withPagination(inject("taskLists")(observer(TaskListsFeedApp)))

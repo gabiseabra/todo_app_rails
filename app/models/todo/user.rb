@@ -12,7 +12,7 @@ class Todo::User < ApplicationRecord
          :validatable
          # :confirmable
 
-  has_many :task_lists
+  has_many :task_lists, -> { order(created_at: :desc) }
 
   validates :username, uniqueness: true, presence: true
   # Devise already does this

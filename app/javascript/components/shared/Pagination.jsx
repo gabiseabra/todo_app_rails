@@ -5,9 +5,10 @@ import { Box, Button } from "grommet"
 
 export default function Pagination({
   onChange,
-  current_page: current,
-  total_pages: total
+  total_pages: total,
+  ...props
 }) {
+  const current = parseInt(props.current_page, 10)
   // eslint-disable-next-line
   let onPrev, onNext
   if(current > 1) onPrev = () => onChange(current - 1)

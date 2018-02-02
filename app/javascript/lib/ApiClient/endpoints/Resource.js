@@ -2,6 +2,8 @@ import _ from "lodash"
 import qs from "querystring"
 import Endpoint from "./Endpoint"
 
+const cleanQuery = $ => _.omitBy($, _.isEmpty)
+
 export default class Resource extends Endpoint {
   constructor(api, { name, path, parent, shallow }) {
     super(api)
@@ -43,9 +45,9 @@ export default class Resource extends Endpoint {
   async index(...args) {
     const [ query ] = args.splice(-1, 1)
     const { path, ...data } = this.resolveScope(...args)
-    const queryString = query ? qs.stringify(query) : ""
+    const queryString = query ? qs.stringify(cleanQuery(query)) : ""
     const response = await this.json(`${path}?${queryString}`)
-    return { ...response, ...data, query }
+    return { ...response, ...data, query: query || {} }
   }
 
   async show(...args) {

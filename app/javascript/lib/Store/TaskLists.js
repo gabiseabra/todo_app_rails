@@ -1,7 +1,10 @@
 import _ from "lodash/fp"
+import qs from "querystring"
 import { observable } from "mobx"
 import { asyncAction } from "./BaseStore"
 import ResourceStore from "./PaginatedResourceStore"
+
+const cleanQuery = _.omitBy(_.isEmpty)
 
 const collect = key => _.flow(
   _.map(props => props[key]),
@@ -60,8 +63,9 @@ export default class TaskLists extends ResourceStore {
     super.hydrate({ data, id, ...args })
   }
 
-  @asyncAction async fetchFeed() {
-    const response = await this.api.json("")
-    this.hydrateCollection({ ...response, scope: "@@feed" })
+  @asyncAction async fetchFeed(query) {
+    const queryString = query ? qs.stringify(cleanQuery(query)) : ""
+    const response = await this.api.json(`?${queryString}`)
+    this.hydrateCollection({ ...response, scope: "@@feed", query })
   }
 }

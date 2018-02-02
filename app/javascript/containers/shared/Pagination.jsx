@@ -5,9 +5,9 @@ import { Pagination } from "@/components/shared"
 
 class PaginationApp extends Component {
   onChange = (page) => {
-    const { location } = this.props
+    const { history, location } = this.props
     const query = location.search ? qs.parse(location.search.slice(1)) : {}
-    this.props.push({
+    history.push({
       ...location,
       search: qs.stringify({ ...query, page })
     })
@@ -21,3 +21,8 @@ class PaginationApp extends Component {
 }
 
 export default withRouter(PaginationApp)
+
+export const withPagination = Target => withRouter(({ location, ...props }) => {
+  const { page } = location.search ? qs.parse(location.search.slice(1)) : {}
+  return <Target {...props} page={page || 1} />
+})

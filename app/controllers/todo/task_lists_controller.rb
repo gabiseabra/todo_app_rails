@@ -8,7 +8,7 @@ class Todo::TaskListsController < TodoController
   def index
     @todo_task_lists = @todo_user.task_lists
     @todo_task_lists = @todo_task_lists.visible unless is_current_todo_user?
-    @todo_task_lists = @todo_task_lists.paginate(:page => params[:page])
+    @todo_task_lists = @todo_task_lists.paginate(page: params.fetch(:page, 1))
   end
 
   # GET /api/lists/1.json

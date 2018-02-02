@@ -1,7 +1,9 @@
+import _ from "lodash"
 import React, { Component } from "react"
+import { withRouter } from "react-router-dom"
 import { Loader } from "@/components/shared"
 
-export default class LoaderApp extends Component {
+class LoaderApp extends Component {
   static defaultProps = {
     valid: true
   }
@@ -11,8 +13,8 @@ export default class LoaderApp extends Component {
     if(force || !(valid || loading)) load()
   }
 
-  componentWillReceiveProps({ load, loading, valid }) {
-    if(!(valid || loading)) load()
+  componentWillReceiveProps({ load, loading, valid, location }) {
+    if(!_.isEqual(location, this.props.location) && !(valid || loading)) load()
   }
 
   renderChildren() {
@@ -30,3 +32,5 @@ export default class LoaderApp extends Component {
     )
   }
 }
+
+export default withRouter(LoaderApp)
