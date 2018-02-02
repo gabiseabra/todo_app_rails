@@ -7,4 +7,12 @@ class Todo::TaskList < ApplicationRecord
   self.per_page = 15
 
   validates :title, presence: true
+
+  def progress_total
+    tasks.count
+  end
+
+  def progress_checked
+    tasks.checked.count
+  end
 end

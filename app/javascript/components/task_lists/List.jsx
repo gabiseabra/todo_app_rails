@@ -6,6 +6,7 @@ import RemoveIcon from "grommet/components/icons/base/Trash"
 import ViewIcon from "grommet/components/icons/base/View"
 import { List, ListItem, Button } from "grommet"
 import { confirmDialog } from "../shared"
+import Details from "./Details"
 
 const stopPropagation = (e) => {
   e.stopPropagation()
@@ -61,26 +62,14 @@ class TaskLists extends Component {
   }
 
   @autobind
-  renderIndicators(node) {
-    if(node.public) return null
-    return (
-      <Button
-        title="Private"
-        icon={<ViewIcon />} />
-    )
-  }
-
-  @autobind
   renderNode(node, i) {
     const { id, title } = node
 
     return (
-      <ListItem justify="between" key={id}>
-        <span>{title}</span>
-        <span>
-          {this.renderIndicators(node, i)}
-          {this.renderControls(node, i)}
-        </span>
+      <ListItem key={id}>
+        <span style={{ flex: "1 1 100%" }}>{title}</span>
+        <span style={{ flex: "0 0 auto" }}><Details {...node} /></span>
+        <span style={{ flex: "0 0 auto" }}>{this.renderControls(node, i)}</span>
       </ListItem>
     )
   }
