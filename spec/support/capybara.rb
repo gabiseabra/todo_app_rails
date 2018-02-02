@@ -1,10 +1,21 @@
 require 'capybara/rspec'
 require 'capybara-screenshot/rspec'
 
+browser = ENV.fetch('SELENIUM_BROWSER', 'chrome').to_sym
+
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new(app, browser: :chrome)
+end
+
+Capybara.register_driver :firefox do |app|
+  Capybara::Selenium::Driver.new(app, browser: :firefox)
+end
+
+Capybara.javascript_driver = browser
+
 if ENV['SELENIUM_SERVER']
   remote = ENV['SELENIUM_SERVER']
   port = ENV['SELENIUM_PORT'] || 4444
-  browser = (ENV['SELENIUM_BROWSER'] || 'chrome').to_sym
   Capybara.register_driver :selenium_remote do |app|
     url = "http://#{remote}:#{port}/wd/hub"
     client = Selenium::WebDriver::Remote::Http::Default.new
