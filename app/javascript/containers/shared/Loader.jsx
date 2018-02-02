@@ -9,13 +9,15 @@ class LoaderApp extends Component {
   }
 
   componentDidMount() {
-    const { load, loading, valid, force } = this.props
-    if(force || !(valid || loading)) load()
+    const { loading, valid, force } = this.props
+    if(force || !(valid || loading)) this.load()
   }
 
-  componentWillReceiveProps({ load, loading, valid, location }) {
-    if(!_.isEqual(location, this.props.location) && !(valid || loading)) load()
+  componentWillReceiveProps({ loading, valid }) {
+    if(!(valid || loading)) this.load()
   }
+
+  load = _.throttle(() => this.props.load(), 600)
 
   renderChildren() {
     const { valid, children, component: Child } = this.props
