@@ -38,7 +38,7 @@ class Todo::LikesController < TodoController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_todo_like
-      @todo_like = Todo::User.find_by(
+      @todo_like = Todo::Like.find_by(
         user_id: params[:user_id],
         task_list_id: params[:id]
       )
