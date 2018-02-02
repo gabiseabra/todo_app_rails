@@ -13,9 +13,9 @@ export default class ResourceStore extends BaseStore {
     return _.compact(ids.map(id => this.get(id)))
   }
 
-  getScopeIds(...args) { return this.scopes.get(this.endpoint.scope(...args)) }
+  getScopeData(...args) { return this.scopes.get(this.endpoint.scope(...args)) }
 
-  getScope(...args) { return this.getAll(this.getScopeIds(...args)) }
+  getScope(...args) { return this.getAll(this.getScopeData(...args)) }
 
   get endpoint() { throw new Error("ResourceStore.endpoint() not implemented") }
 
@@ -44,7 +44,7 @@ export default class ResourceStore extends BaseStore {
 
   @asyncAction async fetch(...args) {
     const response = await this.endpoint.show(...args)
-    this.hydrate(response)
+    this.hydrate(response, args)
   }
 
   @asyncAction async create(...args) {

@@ -1,4 +1,5 @@
 import _ from "lodash"
+import qs from "querystring"
 import Endpoint from "./Endpoint"
 
 export default class Resource extends Endpoint {
@@ -40,9 +41,11 @@ export default class Resource extends Endpoint {
   }
 
   async index(...args) {
+    const [ query ] = args.splice(-1, 1)
     const { path, ...data } = this.resolveScope(...args)
-    const response = await this.json(path)
-    return { ...response, ...data }
+    const queryString = query ? qs.stringify(query) : ""
+    const response = await this.json(`${path}?${queryString}`)
+    return { ...response, ...data, query }
   }
 
   async show(...args) {

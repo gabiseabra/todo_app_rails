@@ -1,7 +1,7 @@
 import _ from "lodash/fp"
 import { observable } from "mobx"
 import { asyncAction } from "./BaseStore"
-import ResourceStore from "./ResourceStore"
+import ResourceStore from "./PaginatedResourceStore"
 
 const collect = key => _.flow(
   _.map(props => props[key]),
@@ -26,7 +26,11 @@ export default class TaskLists extends ResourceStore {
     return { ...data, ...relations }
   }
 
-  getFeed() { return this.getAll(this.scopes.get("@@feed")) }
+  getFeed(page) {
+    const feed = this.scopes.get("@@feed")
+    if(feed && feed.pages[page]) return this.getAll(feed.pages[page])
+    else return undefined
+  }
 
   hydrateCollection({ data, ...args }) {
     const { users, tasks } = this.store
@@ -44,7 +48,6 @@ export default class TaskLists extends ResourceStore {
 
   hydrate({ data, id, ...args }) {
     const { users, tasks } = this.store
-    super.hydrate({ data, id, ...args })
     if(data.user) users.hydrate({ id: data.user_id, data: data.user })
     if(data.tasks) {
       tasks.hydrateCollection({
@@ -52,6 +55,7 @@ export default class TaskLists extends ResourceStore {
         data: data.tasks
       })
     }
+    super.hydrate({ data, id, ...args })
   }
 
   @asyncAction async fetchFeed() {
