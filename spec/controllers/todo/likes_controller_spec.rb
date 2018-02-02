@@ -30,7 +30,7 @@ RSpec.describe Todo::LikesController, type: :controller do
   end
 
   describe 'POST #create' do
-    let(:request!) { post :create, format: :json, params: { user_id: user.id, todo_like: todo_like_params } }
+    let(:request!) { post :create, format: :json, params: { user_id: user.to_param, todo_like: todo_like_params } }
 
     authentication_context do
       context 'with valid params' do
@@ -67,7 +67,7 @@ RSpec.describe Todo::LikesController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let(:subject) { likes.last }
+    let(:subject) { likes.sample }
     let(:request!) { delete :destroy, format: :json, params: { user_id: user.to_param, id: subject.to_param } }
 
     authentication_context do
