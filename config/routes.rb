@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :todo do
+    resources :likes
+  end
   namespace :todo, path: '/api' do
     root to: 'home#index'
 
@@ -9,6 +12,7 @@ Rails.application.routes.draw do
     }
 
     resources :users, only: %i[show] do
+      resources :likes, shallow: true, only: %i[index create destroy]
       resources :task_lists, path: 'lists', shallow: true do
         resources :tasks
       end

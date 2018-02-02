@@ -1,6 +1,5 @@
 import _ from "lodash/fp"
 import qs from "querystring"
-import { observable } from "mobx"
 import { asyncAction } from "./BaseStore"
 import ResourceStore from "./PaginatedResourceStore"
 
@@ -15,8 +14,6 @@ const collect = key => _.flow(
 const collectUsers = collect("user")
 
 export default class TaskLists extends ResourceStore {
-  pagination = observable.object({})
-
   get endpoint() { return this.api.taskLists }
 
   get(id) {

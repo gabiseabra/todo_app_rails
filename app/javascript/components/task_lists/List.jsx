@@ -1,3 +1,4 @@
+import _ from "lodash"
 import autobind from "autobind-decorator"
 import React, { Component, Fragment } from "react"
 import { withRouter } from "react-router-dom"
@@ -31,6 +32,10 @@ class TaskLists extends Component {
       children: `Really delete ${node.title}?`,
       onConfirm: () => onDelete(node.id)
     })
+  }
+
+  get nodeProps() {
+    return _.omit(this.props, "children")
   }
 
   viewUrl = (i) => {
@@ -71,7 +76,7 @@ class TaskLists extends Component {
         data-key={id}
         className="TaskLists-List--item">
         <span style={{ flex: "1 1 100%" }}>{title}</span>
-        <span style={{ flex: "0 0 auto" }}><Details {...node} /></span>
+        <span style={{ flex: "0 0 auto" }}><Details {...this.nodeProps} {...node} /></span>
         <span style={{ flex: "0 0 auto" }}>{this.renderControls(node, i)}</span>
       </ListItem>
     )

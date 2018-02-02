@@ -31,6 +31,11 @@ export default class UserNav extends Component {
             Dashboard
           </Anchor>
         </Link>
+        <Link to="/my/likes">
+          <Anchor tag="span">
+            My Likes
+          </Anchor>
+        </Link>
         <Anchor onClick={onSignOut} href="#">
           Log Out
         </Anchor>

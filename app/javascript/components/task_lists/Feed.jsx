@@ -10,7 +10,7 @@ function Node({ id, title, user, ...props }) {
   return (
     <ListItem data-key={id}>
       <span style={{ flex: "1 1 100%" }}>{title}</span>
-      <span style={{ flex: "0 0 auto" }}><Details {...props} /></span>
+      <span style={{ flex: "0 0 auto" }}><Details id={id} {...props} /></span>
       <span style={{ flex: "0 0 auto", marginLeft: "15px" }}>
         <Link to={`/u/${user.id}`} onClick={stopPropagation}>
           <Avatar size="small" src={user.avatar_url} title={user.username} />
@@ -20,12 +20,12 @@ function Node({ id, title, user, ...props }) {
   )
 }
 
-function TaskListsFeed({ children, history }) {
+function TaskListsFeed({ children, history, ...props }) {
   return (
     <List
       selectable
       onSelect={i => history.push(`/lists/${children[i].id}`)}>
-      {children.map(taskList => <Node key={taskList.id} {...taskList} />)}
+      {children.map(taskList => <Node key={taskList.id} {...props} {...taskList} />)}
     </List>
   )
 }

@@ -4,6 +4,7 @@ import { Shell } from "@/components/views"
 import { Nav as UserNav } from "../../users"
 import HomePage from "./HomePage"
 import UserPage from "./UserPage"
+import LikesPage from "./LikesPage"
 import TaskListPage from "./TaskListPage"
 import NewTaskListPage from "./NewTaskListPage"
 import EditTaskListPage from "./EditTaskListPage"
@@ -21,6 +22,7 @@ export default function App(props) {
         <Route exact path="/me" component={DashboardPage} />
         <Route exact path="/:_(m[ey])/lists/new" component={NewTaskListPage} />
         <Route exact path="/:_(m[ey])/lists/:id" component={EditTaskListPage} />
+        <Route exact path="/:_(m[ey])/likes" component={LikesPage} />
         <Route component={NotFound} />
       </Switch>
     </Shell>

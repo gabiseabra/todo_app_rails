@@ -13,6 +13,7 @@ class Todo::TaskListsController < TodoController
 
   # GET /api/lists/1.json
   def show
+    @todo_task_list
   end
 
   # POST /api/users/1/lists.json

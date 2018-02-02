@@ -14,6 +14,8 @@ class Todo::User < ApplicationRecord
 
   has_many :task_lists, -> { order(created_at: :desc) }
 
+  has_many :likes, -> { order(created_at: :desc) }
+
   validates :username, uniqueness: true, presence: true
   # Devise already does this
   # validates :email, uniqueness: true

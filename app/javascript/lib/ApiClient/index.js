@@ -19,6 +19,13 @@ export default class ApiClient {
 
   auth = new Devise(this)
 
+  likes = new Resource(this, {
+    name: "todo_like",
+    path: "likes",
+    parent: [ "users" ],
+    shallow: true
+  })
+
   taskLists = new Resource(this, {
     name: "todo_task_list",
     path: "lists",

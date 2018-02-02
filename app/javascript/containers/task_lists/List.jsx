@@ -3,10 +3,11 @@ import { inject, observer } from "mobx-react"
 import { List } from "@/components/task_lists"
 import { Loader, Pagination, withPagination } from "../shared"
 
-function TaskListsListApp({ user: userId, page, taskLists, ...props }) {
+function TaskListsListApp({ user: userId, page, taskLists, likes, ...props }) {
   const { pagination } = taskLists.getScopeData(userId)
   const lists = taskLists.getScope(userId, page)
   const editableProps = {}
+  if(likes.valid) editableProps.onLike = likes.create
   if(props.editable) editableProps.onDelete = taskLists.delete
   return (
     <Loader
@@ -21,4 +22,4 @@ function TaskListsListApp({ user: userId, page, taskLists, ...props }) {
   )
 }
 
-export default withPagination(inject("taskLists")(observer(TaskListsListApp)))
+export default withPagination(inject("taskLists", "likes")(observer(TaskListsListApp)))
