@@ -90,6 +90,7 @@ class TaskLists extends Component {
           primary
           fill
           label="New List"
+          className="TaskLists-List--new"
           icon={<AddIcon />}
           onClick={this.onNew} />}
       </div>

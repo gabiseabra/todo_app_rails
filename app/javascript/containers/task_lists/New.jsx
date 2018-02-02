@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
 import { inject, observer } from "mobx-react"
+import { Loader } from "@/components/shared"
 import { Form } from "@/components/task_lists"
 import { Form as TasksForm } from "@/components/tasks"
 
@@ -14,13 +15,13 @@ class NewTaskListsApp extends Component {
   render() {
     const { taskLists, ...props } = this.props
     return (
-      <div>
+      <Loader loading={taskLists.loading}>
         <Form
           new
           onCreate={this.onSubmit}
           {...props} />
         <TasksForm disabled />
-      </div>
+      </Loader>
     )
   }
 }

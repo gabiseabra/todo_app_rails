@@ -7,6 +7,7 @@ function UserCardApp({ user: id, users }) {
   const user = users.get(id)
   return (
     <Loader
+      overlay
       load={() => users.fetch(id)}
       loading={users.loading}
       error={users.error}
