@@ -10,7 +10,7 @@ require 'faker'
 def create_user
   password = Faker::Internet.password
   { password: password,
-    password_confirmation: password_confirmation,
+    password_confirmation: password,
     username: Faker::Internet.user_name,
     email: Faker::Internet.email }
 end
