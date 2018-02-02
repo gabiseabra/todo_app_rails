@@ -58,7 +58,7 @@ export default class Resource extends Endpoint {
       method: "POST",
       body: { [this.name]: body }
     })
-    return { ...response, ...data }
+    return { ...response, ...data, id: response.data.id }
   }
 
   async update(...args) {

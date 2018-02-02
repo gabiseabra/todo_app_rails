@@ -3,12 +3,10 @@ import { observable } from "mobx"
 import { asyncAction } from "./BaseStore"
 import ResourceStore from "./ResourceStore"
 
-const byId = _.keyBy("id")
-
 const collect = key => _.flow(
   _.map(props => props[key]),
   _.compact,
-  byId
+  _.uniqBy("id")
 )
 
 const collectUsers = collect("user")
@@ -19,24 +17,41 @@ export default class TaskLists extends ResourceStore {
   get endpoint() { return this.api.taskLists }
 
   get(id) {
+    const { users, tasks } = this.store
     const data = super.get(id)
-    data.user = this.store.users.get(data.user_id)
-    data.tasks = this.store.tasks.getScope(data.id)
-    return data
+    if(!data) return undefined
+    const relations = {}
+    relations.user = users.get(data.user_id)
+    relations.tasks = tasks.getScope(data.id)
+    return { ...data, ...relations }
   }
 
   getFeed() { return this.getAll(this.scopes.get("@@feed")) }
 
-  hydrate(collection, ...args) {
+  hydrateCollection({ data, ...args }) {
     const { users, tasks } = this.store
-    super.hydrate(collection, ...args)
-    users.hydrate(collectUsers(collection))
-    collection.forEach((data) => {
-      if(data.tasks) {
-        const scope = tasks.getScope(data.id)
-        tasks.hydrate(scope, byId(data.tasks))
+    users.hydrateCollection({ data: collectUsers(data) })
+    data.forEach(({ id, tasks: children }) => {
+      if(children) {
+        tasks.hydrateCollection({
+          scope: tasks.getScope(id),
+          data: children
+        })
       }
     })
+    super.hydrateCollection({ data, ...args })
+  }
+
+  hydrate({ data, id, ...args }) {
+    const { users, tasks } = this.store
+    super.hydrate({ data, id, ...args })
+    if(data.user) users.hydrate({ id: data.user_id, data: data.user })
+    if(data.tasks) {
+      tasks.hydrateCollection({
+        scope: tasks.endpoint.scope(id),
+        data: data.tasks
+      })
+    }
   }
 
   @asyncAction async fetchFeed() {

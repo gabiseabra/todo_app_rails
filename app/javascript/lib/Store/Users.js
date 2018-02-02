@@ -1,3 +1,4 @@
+import _ from "lodash"
 import { observable, action } from "mobx"
 import BaseStore, { asyncAction } from "./BaseStore"
 
@@ -14,7 +15,8 @@ export default class Users extends BaseStore {
     this.setCurrentUser(options.currentUser)
   }
 
-  hydrate(collection) { this.registry.merge(collection) }
+  hydrateCollection({ data }) { this.registry.merge(_.keyBy(data, "id")) }
+  hydrate({ id, data }) { this.registry.set(id, data) }
 
   @asyncAction async signUp(options) {
     const { data } = await this.api.auth.signUp(options)
@@ -34,7 +36,7 @@ export default class Users extends BaseStore {
   setCurrentUser(user) {
     if(user) {
       this.currentUserId = user.id
-      this.hydrate({ [user.id]: user })
+      this.hydrate({ id: user.id, data: user })
     } else {
       this.currentUserId = undefined
     }

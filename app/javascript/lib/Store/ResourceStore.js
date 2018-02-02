@@ -31,7 +31,7 @@ export default class ResourceStore extends BaseStore {
     this.registry.set(id, data)
     if(this.scopes.has(scope)) {
       const ids = this.scopes.get(scope)
-      if(!ids.find(id)) {
+      if(ids.indexOf(id) === -1) {
         this.scopes.get(scope).push(data.id)
       }
     }
@@ -59,7 +59,12 @@ export default class ResourceStore extends BaseStore {
   }
 
   @asyncAction async delete(...args) {
-    const { id } = await this.endpoint.delete(...args)
+    const { id, scope } = await this.endpoint.delete(...args)
+    if(this.scopes.has(scope)) {
+      const ids = this.scope.get(scope)
+      // eslint-disable-next-line eqeqeq
+      this.scopes.set(scope, ids.filter(x => x != id))
+    }
     this.registry.delete(id)
   }
 }

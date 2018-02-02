@@ -5,13 +5,14 @@ import { Loader } from "../shared"
 
 function TaskListsCardApp({ id, taskLists, ...props }) {
   const data = taskLists.get(id)
+  console.log(data)
   return (
     <Loader
       load={() => taskLists.fetch(id)}
       loading={taskLists.loading}
       error={taskLists.error}
-      valid={typeof data !== "undefined"}>
-      <Card {...data} {...props} />
+      valid={typeof data !== "undefined" && typeof data.tasks !== "undefined"}>
+      <Card {...(data || {})} {...props} />
     </Loader>
   )
 }
