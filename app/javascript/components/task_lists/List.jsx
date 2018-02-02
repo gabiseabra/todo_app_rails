@@ -78,7 +78,7 @@ class TaskLists extends Component {
     const { children, editable } = this.props
 
     return (
-      <div>
+      <div className="TaskLists-List">
         <List selectable onSelect={this.onSelect}>
           {children.map(this.renderNode)}
         </List>

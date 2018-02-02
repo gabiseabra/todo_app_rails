@@ -27,12 +27,14 @@ export default class Task extends ResourceComponent {
       return (
         <Button
           critical
+          title="Remove"
           icon={<RemoveIcon />}
           onClick={disabled ? null : this.onDelete} />
       )
     } else {
       return (
         <Button
+          title="Add"
           icon={<AddIcon />}
           onClick={disabled ? null : this.onSubmit} />
       )
@@ -40,12 +42,12 @@ export default class Task extends ResourceComponent {
   }
 
   render() {
-    const { disabled } = this.props
+    const { disabled, className } = this.props
     const { body, checked } = this.state
 
     return (
       <ListItem justify="between">
-        <span className="Tasks-Form--body">
+        <span className={`Tasks-Form--body ${className}`}>
           <CheckBox
             name="checked"
             checked={checked}
@@ -57,6 +59,7 @@ export default class Task extends ResourceComponent {
               style={{ width: "100%" }}
               type="text"
               name="body"
+              placeholder="..."
               disabled={disabled}
               value={body}
               onBlur={this.onSubmit}

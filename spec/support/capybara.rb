@@ -9,7 +9,7 @@ if ENV['SELENIUM_SERVER']
     url = "http://#{remote}:#{port}/wd/hub"
     client = Selenium::WebDriver::Remote::Http::Default.new
     client.open_timeout = 90 # Default is 60
-    client.read_timeout = 90 # Default is 60
+    client.read_timeout = 300 # Default is 60
     Capybara::Selenium::Driver.new(
       app,
       browser: :remote,

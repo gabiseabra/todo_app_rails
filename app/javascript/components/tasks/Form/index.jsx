@@ -8,7 +8,7 @@ export default function TaskForm({ children, ...props }) {
       {children && children.map(task => (
         <Task key={task.id} {...props} {...task} />
       ))}
-      <Task new {...props} />
+      <Task new className="Tasks-Form__new" {...props} />
     </List>
   )
 }
