@@ -31,8 +31,8 @@ export default class UserNav extends Component {
             Dashboard
           </Anchor>
         </Link>
-        <Anchor onClick={onSignOut}>
-          Logout
+        <Anchor onClick={onSignOut} href="#">
+          Log Out
         </Anchor>
       </Menu>
     )

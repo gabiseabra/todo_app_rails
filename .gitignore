@@ -31,3 +31,5 @@ yarn-error.log*
 # Ignore assets build
 /public/assets
 /public/packs
+
+.env

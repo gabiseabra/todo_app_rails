@@ -1,4 +1,6 @@
-export const csrfToken = document.querySelector("meta[name=csrf-token]").getAttribute("content")
+const csrfTokenEl = document.querySelector("meta[name=csrf-token]")
+
+export const csrfToken = csrfTokenEl ? csrfTokenEl.getAttribute("content") : undefined
 
 export const authToken = JSON.parse(document.getElementById("authentication-token").textContent)
 

@@ -1,6 +1,6 @@
 <%= csrf_meta_tags %>
 <%= authentication_tags %>
 <%= javascript_pack_tag 'common' %>
-<%= javascript_pack_tag 'todo' %>
+<%= javascript_pack_tag 'todo', defer: true %>
 <%= stylesheet_link_tag 'application', media: 'all' %>
 <link rel="preload" as="fetch" href="<%= todo_root_path(format: :json) %>">
