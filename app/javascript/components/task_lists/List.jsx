@@ -67,7 +67,6 @@ class TaskLists extends Component {
 
     return (
       <ListItem
-        focusable
         key={id}
         data-key={id}
         className="TaskLists-List--item">

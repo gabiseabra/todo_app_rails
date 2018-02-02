@@ -1,14 +1,8 @@
-.App--main {
-  position: absolute;
-  top: 105px;
-  margin: 0 30px;
-  width: calc(100% - 60px);
-}
-
 .App-Header {
   display: flex;
   justify-content: space-between;
   padding: 0 30px;
+  height: 72px + 40px;
 }
 
 .App-Page--header {

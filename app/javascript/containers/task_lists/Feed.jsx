@@ -3,13 +3,13 @@ import { inject, observer } from "mobx-react"
 import { Feed } from "@/components/task_lists"
 import { Loader } from "../shared"
 
-function TaskListsFeedApp({ taskLists, search, ...props }) {
-  const lists = taskLists.getFeed()
+function TaskListsFeedApp({ taskLists, page, ...props }) {
+  const lists = taskLists.getFeed(page)
   return (
     <Loader
-      force
+      force={false}
       overlay
-      load={() => taskLists.fetchFeed(search)}
+      load={() => taskLists.fetchFeed({ page })}
       loading={taskLists.loading}
       error={taskLists.error}
       valid={typeof lists !== "undefined"}>
