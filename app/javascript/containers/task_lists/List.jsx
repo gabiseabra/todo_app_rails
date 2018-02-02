@@ -6,6 +6,8 @@ import { Loader, Pagination, withPagination } from "../shared"
 function TaskListsListApp({ user: userId, page, taskLists, likes, ...props }) {
   const { pagination } = taskLists.getScopeData(userId)
   const lists = taskLists.getScope(userId, page)
+  const editableProps = {}
+  if(props.editable) editableProps.onDelete = taskLists.delete
   return (
     <Loader
       overlay
@@ -13,7 +15,12 @@ function TaskListsListApp({ user: userId, page, taskLists, likes, ...props }) {
       loading={taskLists.loading}
       error={taskLists.error}
       valid={typeof lists !== "undefined"}>
-      <List {...props} {...likes.props}>{lists}</List>
+      <List
+        {...likes.props}
+        {...props}
+        {...editableProps}>
+        {lists}
+      </List>
       <Pagination {...pagination} current_page={page} />
     </Loader>
   )
