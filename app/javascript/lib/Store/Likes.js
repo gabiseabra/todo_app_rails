@@ -1,4 +1,3 @@
-import _ from "lodash/fp"
 import { computed } from "mobx"
 import BaseStore, { asyncAction } from "./BaseStore"
 
@@ -7,28 +6,39 @@ export default class TaskLists extends BaseStore {
 
   @computed get validScope() { return Boolean(this.store.users.currentUserId) }
 
-  getPagination(id) { return this.getScopeData(id).pagination }
+  @computed get pagination() { return this.data.pagination }
 
-  getScopeData(id) {
+  @computed get data() {
     const { taskLists } = this.store
-    return taskLists.scopes.get(`@@likes/${id}`) || { pages: {}, pagination: {} }
+    return taskLists.scopes.get("@@likes") || { pages: {}, pagination: {} }
   }
 
-  getScope(id, page) {
-    const { taskLists } = this.store
-    const data = this.getScopeData(id)
+  getScope(page) {
+    const { data, store: { taskLists } } = this
     if(!data.pages[page]) return undefined
-    return taskLists.getAll(data.page[page])
+    return taskLists.getAll(data.pages[page])
+  }
+
+  get props() {
+    if(this.validScope) {
+      return {
+        onLike: this.create,
+        onDislike: this.delete
+      }
+    } else {
+      return {}
+    }
   }
 
   @asyncAction async fetchScope(query) {
     const { users, taskLists } = this.store
     if(!users.currentUserId) return
-    const { data } = await this.endpoint.index(users.currentUserId, query)
+    const { data, pagination } = await this.endpoint.index(users.currentUserId, query)
     taskLists.hydrateCollection({
       query,
+      pagination,
       scope: "@@likes",
-      data: _.map(data, "task_list")
+      data: data.map(x => x.task_list)
     })
   }
 

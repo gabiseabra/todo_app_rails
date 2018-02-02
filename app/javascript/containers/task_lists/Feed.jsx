@@ -6,11 +6,6 @@ import { Loader, Pagination, withPagination } from "../shared"
 function TaskListsFeedApp({ taskLists, likes, page, ...props }) {
   const { pagination } = taskLists.getFeedData()
   const lists = taskLists.getFeed(page)
-  const editableProps = {}
-  if(likes.validScope) {
-    editableProps.onLike = likes.create
-    editableProps.onDislike = likes.delete
-  }
   return (
     <Loader
       force
@@ -19,7 +14,7 @@ function TaskListsFeedApp({ taskLists, likes, page, ...props }) {
       loading={taskLists.loading}
       error={taskLists.error}
       valid={typeof lists !== "undefined"}>
-      <Feed {...props} {...editableProps}>{lists}</Feed>
+      <Feed {...props} {...likes.props}>{lists}</Feed>
       <Pagination {...pagination} current_page={page} />
     </Loader>
   )

@@ -17,6 +17,7 @@ export default class PaginatedResourceStore extends ResourceStore {
   hydrateCollection({ data, pagination, scope, query, ...args }) {
     const page = query.page || 1
     super.hydrateCollection({ data, ...args })
+    console.log(page, data, pagination, scope, query)
     if(scope && pagination) {
       const info = this.scopes.get(scope)
       const newInfo = { pages: {}, pagination }
