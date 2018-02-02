@@ -14,7 +14,7 @@ RSpec.describe Todo::TaskListsController, type: :controller do
 
     it 'assigns requested users\'s task_lists as @todo_task_lists' do
       request!
-      assigns(:todo_task_lists).should eq(task_lists)
+      assigns(:todo_task_lists).should =~ task_lists
     end
   end
 

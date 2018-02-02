@@ -21,7 +21,6 @@ RSpec.feature 'Dashboard', type: :feature, js: true do
   scenario 'user visits dashboard page' do
     should_finish_loading
 
-    page.save_screenshot("screenie.png")
     task_lists.each do |node|
       el = find(".TaskLists-List--item[data-key='#{node.id}']")
       el.should have_content(node.title)
