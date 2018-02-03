@@ -111,7 +111,7 @@ RSpec.describe Todo::TasksController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let(:subject) { user.task_lists.last }
+    let(:subject) { tasks.last }
     let(:request!) { delete :destroy, format: :json, params: { id: subject.to_param, **params }}
 
     authentication_context do
