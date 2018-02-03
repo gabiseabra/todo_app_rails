@@ -4,7 +4,7 @@ require 'capybara-screenshot/rspec'
 browser = ENV.fetch('SELENIUM_BROWSER', 'chrome').to_sym
 
 Capybara.register_driver :chrome do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome)
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: { args: %w[headless disable-gpu] })
 end
 
 Capybara.register_driver :firefox do |app|
