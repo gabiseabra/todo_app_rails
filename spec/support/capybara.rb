@@ -1,9 +1,14 @@
 require 'capybara/rspec'
 require 'capybara-screenshot/rspec'
 
-browser = ENV.fetch('SELENIUM_BROWSER', 'chrome').to_sym
-
 Capybara.register_driver :chrome do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: { args: %w[window-size=1400,900] }
+  )
+  Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: capabilities)
+end
+
+Capybara.register_driver :chrome_headless do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
     chromeOptions: { args: %w[headless disable-gpu window-size=1400,900] }
   )
@@ -14,11 +19,10 @@ Capybara.register_driver :firefox do |app|
   Capybara::Selenium::Driver.new(app, browser: :firefox)
 end
 
-Capybara.javascript_driver = browser
-
 if ENV['SELENIUM_SERVER']
   remote = ENV['SELENIUM_SERVER']
   port = ENV['SELENIUM_PORT'] || 4444
+  browser = ENV.fetch('SELENIUM_BROWSER', 'chrome').to_sym
   Capybara.register_driver :selenium_remote do |app|
     url = "http://#{remote}:#{port}/wd/hub"
     client = Selenium::WebDriver::Remote::Http::Default.new
@@ -37,6 +41,7 @@ if ENV['SELENIUM_SERVER']
 end
 
 Capybara.default_max_wait_time = 10
-Capybara.app_host    = ENV.fetch('APP_HOST', 'https://localhost:3001')
-Capybara.server_host = ENV.fetch('SERVER_HOST', '0.0.0.0')
-Capybara.server_port = ENV.fetch('SERVER_PORT', '3001')
+Capybara.app_host              = ENV.fetch('APP_HOST', 'https://localhost:3001')
+Capybara.server_host           = ENV.fetch('SERVER_HOST', '0.0.0.0')
+Capybara.server_port           = ENV.fetch('SERVER_PORT', '3001')
+Capybara.javascript_driver     = ENV.fetch('JAVASCRIPT_DRIVER', Capybara.javascript_driver).to_sym
