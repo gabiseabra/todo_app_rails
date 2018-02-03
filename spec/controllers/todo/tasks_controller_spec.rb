@@ -118,8 +118,8 @@ RSpec.describe Todo::TasksController, type: :controller do
       it 'destroys the requested todo_task_list' do
         lambda do
           request!
-          subject.reload
-        end.should change(subject.tasks, :count).by(-1)
+          task_list.reload
+        end.should change(task_list.tasks, :count).by(-1)
       end
     end
   end
