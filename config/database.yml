@@ -19,6 +19,6 @@ test:
   password: <%= ENV['DB_PASS'] || 'postgres' %>
 
 production:
-  <<: *default
+  # <<: *default
   url: <%= ENV['DATABASE_URL'] %>
   pool: <%= ENV['DB_POOL'] || ENV['MAX_THREADS'] || 25 %>
