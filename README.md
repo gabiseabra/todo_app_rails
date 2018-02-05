@@ -37,3 +37,7 @@ Configure your .env file for selenium and run tests with yarn's `test` script.
 ```sh
 yarn run start:dev
 ```
+
+## Heroku
+
+TODO
