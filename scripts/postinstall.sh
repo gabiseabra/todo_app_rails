@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Grommet won't build on rails' asset pipeline.
 # This fix is neccessary until this PR is merged.
