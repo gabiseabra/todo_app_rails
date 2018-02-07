@@ -31,17 +31,11 @@ install:
 before_script:
   # Setup database
   - chromedriver-update
+  - sh -e /etc/init.d/xvfb start
   - bundle exec rake db:setup
   - bundle exec rake db:seed
 
 script:
-  - xvfb-run yarn run test
+  - yarn run test
   # @TODO
   # - yarn run lint
-
-# deploy:
-#   provider: gae
-#   keyfile: $GCLOUD_KEYFILE
-#   project: $GCLOUD_PROJECT_ID
-#   on:
-#     branch: master
