@@ -23,7 +23,7 @@ env:
   # Build options
   - RAKE_ENV=test
     DISPLAY=:99.0
-    JAVASCRIPT_DRIVER=chrome
+    JAVASCRIPT_DRIVER=chrome_headless
     GCLOUD_PROJECT_ID="todo-app-rails"
     GCLOUD_KEYFILE=""
 
@@ -33,10 +33,10 @@ install:
 
 before_script:
   # Setup database
-  - google-chrome-stable --headless --no-sandbox
-  - chromedriver-update
-  - sh -e /etc/init.d/xvfb start
+  - /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1400x900x16
   - sleep 3
+  - chromedriver-update
+  - google-chrome-stable --headless --no-sandbox --no-gpu
   - bundle exec rake db:setup
   - bundle exec rake db:seed
 
