@@ -4,6 +4,9 @@ node_js: "6"
 
 addons:
   chrome: stable
+  apt:
+    packages:
+      - chromium-chromedriver
 
 services:
   - postgresql
@@ -30,8 +33,10 @@ install:
 
 before_script:
   # Setup database
+  - google-chrome-stable --headless --no-sandbox
   - chromedriver-update
   - sh -e /etc/init.d/xvfb start
+  - sleep 3
   - bundle exec rake db:setup
   - bundle exec rake db:seed
 
