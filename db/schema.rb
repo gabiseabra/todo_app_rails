@@ -12,9 +12,12 @@
 
 ActiveRecord::Schema.define(version: 20180208130024) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "todo_likes", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "task_list_id"
+    t.bigint "user_id"
+    t.bigint "task_list_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["task_list_id"], name: "index_todo_likes_on_task_list_id"
@@ -39,7 +42,7 @@ ActiveRecord::Schema.define(version: 20180208130024) do
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "task_id"
+    t.bigint "task_id"
     t.index ["checked"], name: "index_todo_tasks_on_checked"
     t.index ["task_id"], name: "index_todo_tasks_on_task_id"
     t.index ["task_list_id"], name: "index_todo_tasks_on_task_list_id"
@@ -72,4 +75,7 @@ ActiveRecord::Schema.define(version: 20180208130024) do
     t.index ["username"], name: "index_todo_users_on_username", unique: true
   end
 
+  add_foreign_key "todo_likes", "todo_task_lists", column: "task_list_id"
+  add_foreign_key "todo_likes", "todo_users", column: "user_id"
+  add_foreign_key "todo_tasks", "todo_tasks", column: "task_id"
 end
