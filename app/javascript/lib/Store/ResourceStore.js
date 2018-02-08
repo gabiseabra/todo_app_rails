@@ -38,6 +38,7 @@ export default class ResourceStore extends BaseStore {
   }
 
   @asyncAction async fetchScope(...args) {
+    console.log(args)
     const response = await this.endpoint.index(...args)
     this.hydrateCollection(response)
   }
