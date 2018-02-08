@@ -14,7 +14,7 @@ export default function TaskList({ tasks: children }) {
             </span>
             <span>{body}</span>
           </ListItem>
-          {tasks &&
+          {tasks && tasks.length &&
           <ListItem>
             <TaskList tasks={tasks} />
           </ListItem>}
