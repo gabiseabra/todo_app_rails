@@ -13,14 +13,16 @@ class Todo::Task < ApplicationRecord
 
   validate :validate_parent_id
   validates :checked, inclusion: { in: [true, false] }, allow_nil: false
-  validates :task_id, presence: false
-  validates :tasks, presence: false
+
 
   private
 
   def validate_parent_id
-    return unless task_id
-    parent = Todo::Task.find(task_id)
+    puts self.task.inspect
+    puts self.task_id.inspect
+    return true unless self.task_id
+    parent = Todo::Task.find_by(id: task_id)
+    puts parent
     parent && self.user == parent.user
   end
 end
