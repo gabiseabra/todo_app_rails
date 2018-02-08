@@ -3,7 +3,7 @@ class Todo::TaskList < ApplicationRecord
   scope :visible_by, ->(user) { where(user_id: user.id).or(visible) }
 
   belongs_to :user
-  has_many :tasks, -> { order(position: :asc) }
+  has_many :tasks, -> { where(task_id: nil).order(position: :asc) }
   has_many :likes
 
   self.per_page = 15

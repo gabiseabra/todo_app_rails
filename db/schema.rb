@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180202181430) do
+ActiveRecord::Schema.define(version: 20180208130024) do
 
   create_table "todo_likes", force: :cascade do |t|
     t.integer "user_id"
@@ -39,7 +39,9 @@ ActiveRecord::Schema.define(version: 20180202181430) do
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "task_id"
     t.index ["checked"], name: "index_todo_tasks_on_checked"
+    t.index ["task_id"], name: "index_todo_tasks_on_task_id"
     t.index ["task_list_id"], name: "index_todo_tasks_on_task_list_id"
   end
 

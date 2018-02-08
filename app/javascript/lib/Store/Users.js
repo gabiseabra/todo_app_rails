@@ -22,6 +22,7 @@ export default class Users extends BaseStore {
     const { taskLists } = this.store
     const scope = taskLists.endpoint.scope(id)
     taskLists.scopes.delete(scope)
+    taskLists.scopes.delete("@@feed")
   }
 
   @asyncAction async signUp(options) {

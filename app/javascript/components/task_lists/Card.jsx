@@ -1,18 +1,24 @@
-import React from "react"
+import React, { Fragment } from "react"
 import { List, ListItem, CheckBox } from "grommet"
 
-export default function TaskList({ tasks }) {
+export default function TaskList({ tasks: children }) {
   return (
-    <List>
-      {tasks.map(({ body, id, checked }) => (
-        <ListItem key={id}>
-          <span>
-            <CheckBox
-              disabled
-              checked={checked} />
-          </span>
-          <span>{body}</span>
-        </ListItem>
+    <List className="TaskLists-Card">
+      {children.map(({ body, id, checked, tasks }) => (
+        <Fragment>
+          <ListItem key={id}>
+            <span>
+              <CheckBox
+                disabled
+                checked={checked} />
+            </span>
+            <span>{body}</span>
+          </ListItem>
+          {tasks &&
+          <ListItem>
+            <TaskList tasks={tasks} />
+          </ListItem>}
+        </Fragment>
       ))}
     </List>
   )
