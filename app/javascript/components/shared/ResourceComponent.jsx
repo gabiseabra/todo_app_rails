@@ -7,6 +7,8 @@ const preventDefault = (e) => {
 }
 
 export default class ResourceComponent extends Component {
+  static actions = [ "onCreate", "onUpdate", "onDelete" ]
+
   constructor(props) {
     super(props)
     this.state = Object.assign({}, this.attrs)
@@ -46,4 +48,6 @@ export default class ResourceComponent extends Component {
   get exists() { return !this.props.new }
 
   get attrs() { return _.pick(this.props, this.constructor.attrs) }
+
+  get actions() { return _.pick(this.props, this.constructor.actions) }
 }
