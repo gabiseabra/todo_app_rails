@@ -13,19 +13,19 @@ RSpec.describe Todo::Task, type: :model do
   }}
 
   context 'validations' do
-    context 'task id' do
-      it 'nil task id succeeds' do
+    describe 'task_id' do
+      it 'succeeds with nil task' do
         task = Todo::Task.new(base_task_attributes)
         task.valid?.should == true
       end
 
-      it 'valid user task id succeeds' do
+      it 'succeeds with valid user task id' do
         task_attributes = base_task_attributes.merge(task: parent_task)
         task = Todo::Task.new(task_attributes)
         task.valid?.should == true
       end
 
-      it 'invalid user task id fails' do
+      it 'fails with invalid user task id' do
         task_attributes = base_task_attributes.merge(task: other_task)
         task = Todo::Task.new(task_attributes)
         task.valid?.should == false
