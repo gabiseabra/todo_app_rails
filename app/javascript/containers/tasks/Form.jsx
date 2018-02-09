@@ -7,7 +7,7 @@ function EditTasksApp({ id, tasks, ...props }) {
   const data = tasks.getScope(id)
   return (
     <Loader
-      load={() => tasks.fetchScope(id)}
+      load={() => tasks.fetchScope(id, {})}
       loading={tasks.loading}
       error={tasks.error}
       valid={typeof data !== "undefined"}>
