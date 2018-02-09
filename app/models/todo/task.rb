@@ -6,7 +6,7 @@ class Todo::Task < ApplicationRecord
 
   belongs_to :task_list
 
-  belongs_to :task
+  belongs_to :task, required: false
   has_many :tasks
 
   has_one :user, through: :task_list
@@ -18,11 +18,8 @@ class Todo::Task < ApplicationRecord
   private
 
   def validate_parent_id
-    puts self.task.inspect
-    puts self.task_id.inspect
-    return true unless self.task_id
+    return unless task_id
     parent = Todo::Task.find_by(id: task_id)
-    puts parent
-    parent && self.user == parent.user
+    errors.add(:task_id, "Can't be another user's") unless parent && user === parent.user
   end
 end
